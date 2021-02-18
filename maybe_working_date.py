@@ -1,5 +1,5 @@
 from datetime import date
-count = 0
+'''count = 0
 today = None
 
 def func():
@@ -18,3 +18,11 @@ if today != date.today():
     print("Today's date:", today)
 else:
     print("In else")
+'''
+
+today = date.today()
+
+while(1):
+    if today != date.today():
+        #refresh tasks
+        today = date.today()
