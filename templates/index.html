@@ -1,25 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-  <meta charset="UTF-8">
-  <title>CodePen - Kanban Drag and Drop</title>
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-<link rel="stylesheet" href="../static/css/style.css">
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<link rel="stylesheet" href="../static/css/style.css">
 
 </head>
 <body>
-<!-- partial:index.partial.html -->
+
 <section class="section">
-	<h1>Kanban Drag and Drop Interface Layout</h1>
+	<h1>Kanban </h1>
+	{% block login %}
+		<form action="/" method="POST" class="form-inline" style="float:right; margin-top: -55px;">
+			<input class="form-control mr-sm-2" type="password" name="admin" placeholder="Password" aria-label="Search" >
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit"> Login </button>
+		</form>
+	{% endblock %}
+	  
 </section>
 
+{% block board %}
 <div class="drag-container">
 	<ul class="drag-list">
 		<li class="drag-column drag-column-on-hold">
 			<span class="drag-column-header">
 				<h2>On Hold</h2>
-				<svg class="drag-header-more" data-target="options1" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/</svg>
+				{% block button %}
+					<a type="submit" class="btn" disabled><i class="fas fa-plus-circle fa-2x"></i></a>
+				{% endblock %}
 			</span>
 				
 			<div class="drag-options" id="options1"></div>
@@ -32,7 +50,7 @@
 		<li class="drag-column drag-column-in-progress">
 			<span class="drag-column-header">
 				<h2>In Progress</h2>
-				<svg class="drag-header-more" data-target="options2" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/</svg>
+				<i class="fab fa-battle-net fa-3x"></i>
 			</span>
 			<div class="drag-options" id="options2"></div>
 			<ul class="drag-inner-list" id="2">
@@ -45,7 +63,8 @@
 		<li class="drag-column drag-column-approved">
 			<span class="drag-column-header">
 				<h2>Approved</h2>
-				<svg data-target="options4" class="drag-header-more" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/</svg>
+				<i class="fas fa-check fa-3x"></i>
+				<!--<svg data-target="options4" class="drag-header-more" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/</svg>-->
 			</span>
 			<div class="drag-options" id="options4"></div>
 			<ul class="drag-inner-list" id="4">
@@ -55,6 +74,11 @@
 		</li>
 	</ul>
 </div>
+{% endblock %}
+
+
+{% block sidemenu %} {% endblock %}
+
 
 
 <!-- partial -->

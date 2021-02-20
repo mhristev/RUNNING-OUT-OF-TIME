@@ -1,3 +1,7 @@
+
+
+
+
 dragula([
 	document.getElementById('1'),
 	document.getElementById('2'),
@@ -25,7 +29,7 @@ dragula([
 	}, 100);
 });
 
-
+/*
 var createOptions = (function() {
 	var dragOptions = document.querySelectorAll('.drag-options');
 	
@@ -57,6 +61,7 @@ var createOptions = (function() {
 	
 	
 }());
+*/
 
 var showOptions = (function () {
 	
