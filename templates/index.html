@@ -30,6 +30,7 @@
 </section>
 
 {% block board %}
+
 <div class="drag-container">
 	<ul class="drag-list">
 		<li class="drag-column drag-column-on-hold">
@@ -43,7 +44,67 @@
 			<div class="drag-options" id="options1"></div>
 			
 			<ul class="drag-inner-list" id="1">
-				<li class="drag-item"></li>
+				
+				<li class="drag-item">
+					<h5>Name of task</h5>
+	
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+						Description
+					</button>
+					
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle" style="color:black">Description</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div>
+							<div class="modal-body">
+								<ul style="color: black;">
+									<li>1. Coffee</li>
+									<li>2. Tea</li>
+									<li>3. Milk</li>
+								</ul>
+							</div>
+							<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+						</div>
+					</div>
+
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenters">
+						Send
+					</button>
+
+					<div class="modal fade" id="exampleModalCenters" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitles" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitles" style="color:black">Done by</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group" style="color: black;">
+									<label for="message-text" class="col-form-label">Name</label>
+									<input class="form-control" type="text" id="message-text"></input>
+								</div>
+							</div>
+							<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Send</button>
+							</div>
+						</div>
+						</div>
+					</div>
+
+					<h>Do this until: 12:00</h>
+				</li>
 				<li class="drag-item"></li>
 			</ul>
 		</li>
