@@ -20,19 +20,19 @@
         </button>
     </div>
     <div class="modal-body">
-        <form>
+        <form method="POST" action="/manage">
             <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Name:</label>
-                <input type="text" class="form-control" id="recipient-name">
+                <input type="text" name="name" class="form-control" id="recipient-name">
             </div>
             <div class="form-group">
                 <label for="message-text" class="col-form-label">Description:</label>
-                <textarea class="form-control" id="message-text"></textarea>
+                <textarea class="form-control" name="description" id="message-text"></textarea>
             </div>
 
             <div class="form-group" style="margin:auto">
                 <label for="exampleFormControlSelect1">Shift</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+                <select class="form-control" name="shift" id="exampleFormControlSelect1">
                   <option></option>
                   <option>First</option>
                   <option>Second</option>
@@ -43,7 +43,7 @@
     
             <div class="container" style="max-width: 250px;"> 
                 <div class="form-group m-1"> 
-                    <label class="font-weight-bold" for="dob"> 
+                    <label class="font-weight-bold" for="first_a">
                         First Alert 
                     </label> 
                     <div class="input-group date"> 
@@ -55,14 +55,14 @@
                             </span> 
                         </span> 
                         <input class="form-control" type="text" 
-                            name="dob" id="dob" value=""> 
+                            name="first_a" id="first_a" value="">
                     </div> 
                 </div> 
             </div> 
 
             <div class="container" style="max-width: 250px;"> 
                 <div class="form-group m-1"> 
-                    <label class="font-weight-bold" for="dob"> 
+                    <label class="font-weight-bold" for="second_a">
                         Second Alert 
                     </label> 
                     <div class="input-group date"> 
@@ -74,20 +74,19 @@
                             </span> 
                         </span> 
                         <input class="form-control" type="text" 
-                            name="dob" id="dob" value=""> 
+                            name="second_a" id="second_a" value="">
                     </div> 
                 </div> 
             </div> 
  
-
-
+    <!--</div>-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
         </form>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Create</button>
-    </div>
-    </div>
+
 </div>
 </div>
 

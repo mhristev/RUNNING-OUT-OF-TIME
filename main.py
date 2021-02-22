@@ -11,10 +11,11 @@ db = SQLAlchemy(app)
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    #name = db.Column(db.String(150), nullable=False, unique=True)
     how_often = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(150), nullable=False, unique=True)
     done_by = db.Column(db.String(150))
+    #done_date = db.Column(db.DateTime)
+
 
     def __init__(self, how_often, description):
         self.how_often = how_often
@@ -33,14 +34,6 @@ def home():
         else:
             return redirect(url_for('home'))
 
-        '''newtask_description = request.form.get('description')
-        newtask_how_often = request.form.get('how_often')
-        if newtask_description and newtask_how_often:
-            new_task = Task(newtask_how_often, description)
-            db.session.add(new_task)
-            db.session.commit()
-        '''
-
 
     else:
         return render_template("index.html")
@@ -58,7 +51,25 @@ def select():
 
 @app.route('/manage', methods=['POST', 'GET'])
 def manage():
-    return render_template("manage.html")
+    if request.method == 'POST':
+        name = request.form.get('name')
+        des = request.form.get('description')
+        shift = request.form.get('shift')
+        first_a = request.form.get('first_a')
+        second_a = request.form.get('second_a')
+        print(first_a)
+        print(second_a)
+        #period = second_a - first_a
+        #print(period)
+        if name and des and shift:
+            new_task = Task(des, shift)
+            db.session.add(new_task)
+            db.session.commit()
+
+        return render_template("manage.html")
+
+    else:
+        return render_template("manage.html")
 
 
 if __name__ == '__main__':
