@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 import os
-from datetime import date
+from datetime import date, datetime
 admin = 0
 
 app = Flask(__name__)
@@ -32,12 +32,12 @@ class Task(db.Model):
         return True
 
 class done_Task:
-    done_date = db.Column(db.DateTime)
+    done_date = db.Column(db.DateTime(timezone=True))
     person_name = db.Column(db.String(150), nullable=False)
     task_name = db.Column(db.String(75), nullable=False, unique=True)
 
-    def __init__(self, done_date, person_date, task_name):
-        self.done_date = done_date
+    def __init__(self, person_date, task_name):
+        self.done_date = datetime.datetime.today().replace(microsecond=0)
         self.person_name = person_date
         self.task_name = task_name
 
