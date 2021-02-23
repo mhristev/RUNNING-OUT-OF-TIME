@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import date
+admin = 0
 
 app = Flask(__name__)
 file_path = os.path.abspath(os.getcwd())+"/my404_database.db"
@@ -16,6 +17,7 @@ class Task(db.Model):
     period = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(150), nullable=False, unique=True)
     shift = db.Column(db.String(6), nullable=False)
+
     done_by = db.Column(db.String(150))
     #done_date = db.Column(db.DateTime)
 
@@ -29,12 +31,20 @@ class Task(db.Model):
     def is_active(self):
         return True
 
+'''class done_Task:
+    done_date
+    person_name
+    task_name
+'''
+
 db.create_all()
 @app.route('/', methods=['POST', 'GET'])
 def home():
     if request.method == 'POST':
         password = request.form.get('admin')
         if password == 'admin':
+            global admin
+            admin = 1
             return redirect(url_for('admin'))
         else:
             return redirect(url_for('home'))
@@ -47,7 +57,10 @@ def home():
 
 @app.route('/admin', methods=['POST', 'GET'])
 def admin():
-    return render_template("admin.html")
+    if admin == 1:
+        return render_template("admin.html")
+    else:
+        return redirect(url_for('home'))
 
 
 @app.route('/select', methods=['POST', 'GET'])
@@ -68,6 +81,7 @@ def manage():
         d0 = date(First_A[2], First_A[1], First_A[0])
         d1 = date(Second_A[2], Second_A[1], Second_A[0])
         period = abs((d1 - d0).days)
+        print(period)
 
         if name and des and shift:
             new_task = Task(name, period, des, shift)
