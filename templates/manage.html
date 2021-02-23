@@ -1,121 +1,122 @@
 {% extends "admin.html"  %}
 
 {% block board %} 
-<script src= 
-    "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"> 
-        </script>
+    <script src= 
+        "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"> 
+            </script>
 
-<div class="border border-danger p-4" style="text-align: center; margin:auto; width: 40%;">
-    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" style="margin:auto" >Add new Task to DB</button> 
-</div>
-<h5 style="text-align: center;"> Print all tasks in DB</h5>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document" >
-    <div class="modal-content" style="background-color: #33363D;">
-    <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Create new Task</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="border border-danger p-4" style="text-align: center; margin:auto; width: 40%;">
+        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" style="margin:auto" >Add new Task to DB</button> 
     </div>
-    <div class="modal-body">
-        <form method="POST" action="/manage">
-            <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Name:</label>
-                <input type="text" name="name" class="form-control" id="recipient-name">
-            </div>
-            <div class="form-group">
-                <label for="message-text" class="col-form-label">Description:</label>
-                <textarea class="form-control" name="description" id="message-text"></textarea>
-            </div>
+    <h5 style="text-align: center;"> Print all tasks in DB</h5>
 
-            <div class="form-group" style="margin:auto">
-                <label for="exampleFormControlSelect1">Shift</label>
-                <select class="form-control" name="shift" id="exampleFormControlSelect1">
-                  <option></option>
-                  <option>First</option>
-                  <option>Second</option>
-                </select>
-            </div>
-            
-            
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content" style="background-color: #33363D;">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create new Task</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="/manage">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <input type="text" name="name" class="form-control" id="recipient-name">
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Description:</label>
+                    <textarea class="form-control" name="description" id="message-text"></textarea>
+                </div>
+
+                <div class="form-group" style="margin:auto">
+                    <label for="exampleFormControlSelect1">Shift</label>
+                    <select class="form-control" name="shift" id="exampleFormControlSelect1">
+                    <option></option>
+                    <option>First</option>
+                    <option>Second</option>
+                    </select>
+                </div>
+                
+                
+        
+                <div class="container" style="max-width: 250px;"> 
+                    <div class="form-group m-1"> 
+                        <label class="font-weight-bold" for="first_a">
+                            First Alert 
+                        </label> 
+                        <div class="input-group date"> 
+                            <span class="input-group-prepend"> 
+                                <span class="input-group-text"> 
+                                    <i class="fa fa-calendar" 
+                                        onclick="setDatepicker(this)"> 
+                                    </i> 
+                                </span> 
+                            </span> 
+                            <input class="form-control" type="text" 
+                                name="first_a" id="first_a" value="">
+                        </div> 
+                    </div> 
+                </div> 
+
+                <div class="container" style="max-width: 250px;"> 
+                    <div class="form-group m-1"> 
+                        <label class="font-weight-bold" for="second_a">
+                            Second Alert 
+                        </label> 
+                        <div class="input-group date"> 
+                            <span class="input-group-prepend"> 
+                                <span class="input-group-text"> 
+                                    <i class="fa fa-calendar" 
+                                        onclick="setDatepicker(this)"> 
+                                    </i> 
+                                </span> 
+                            </span> 
+                            <input class="form-control" type="text" 
+                                name="second_a" id="second_a" value="">
+                        </div> 
+                    </div> 
+                </div> 
     
-            <div class="container" style="max-width: 250px;"> 
-                <div class="form-group m-1"> 
-                    <label class="font-weight-bold" for="first_a">
-                        First Alert 
-                    </label> 
-                    <div class="input-group date"> 
-                        <span class="input-group-prepend"> 
-                            <span class="input-group-text"> 
-                                <i class="fa fa-calendar" 
-                                    onclick="setDatepicker(this)"> 
-                                </i> 
-                            </span> 
-                        </span> 
-                        <input class="form-control" type="text" 
-                            name="first_a" id="first_a" value="">
-                    </div> 
-                </div> 
-            </div> 
+        <!--</div>-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
 
-            <div class="container" style="max-width: 250px;"> 
-                <div class="form-group m-1"> 
-                    <label class="font-weight-bold" for="second_a">
-                        Second Alert 
-                    </label> 
-                    <div class="input-group date"> 
-                        <span class="input-group-prepend"> 
-                            <span class="input-group-text"> 
-                                <i class="fa fa-calendar" 
-                                    onclick="setDatepicker(this)"> 
-                                </i> 
-                            </span> 
-                        </span> 
-                        <input class="form-control" type="text" 
-                            name="second_a" id="second_a" value="">
-                    </div> 
-                </div> 
-            </div> 
- 
-    <!--</div>-->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Create</button>
-            </div>
-        </form>
+    </div>
     </div>
 
-</div>
-</div>
 
 
+    <script type="text/javascript"> 
+        function setDatepicker(_this) { 
 
-<script type="text/javascript"> 
-    function setDatepicker(_this) { 
+            /* Get the parent class name so we  
+                can show date picker */ 
+            let className = $(_this).parent() 
+                .parent().parent().attr('class'); 
 
-        /* Get the parent class name so we  
-            can show date picker */ 
-        let className = $(_this).parent() 
-            .parent().parent().attr('class'); 
+            // Remove space and add '.' 
+            let removeSpace = className.replace(' ', '.'); 
 
-        // Remove space and add '.' 
-        let removeSpace = className.replace(' ', '.'); 
+            // jQuery class selector 
+            $("." + removeSpace).datepicker({ 
+                format: "dd / mm/ yyyy", 
 
-        // jQuery class selector 
-        $("." + removeSpace).datepicker({ 
-            format: "dd / mm/ yyyy", 
-
-            // Positioning where the calendar is placed 
-            orientation: "bottom auto", 
-            // Calendar closes when cursor is  
-            // clicked outside the calendar 
-            autoclose: true, 
-            showOnFocus: "false" 
-        }); 
-    } 
-</script>
-
+                // Positioning where the calendar is placed 
+                orientation: "bottom auto", 
+                // Calendar closes when cursor is  
+                // clicked outside the calendar 
+                autoclose: true, 
+                showOnFocus: "false" 
+            }); 
+        } 
+    </script>
+    </div>
 {% endblock %}
+
 

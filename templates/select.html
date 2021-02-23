@@ -1,4 +1,4 @@
-{% extends "admin.html"  %}
+{% extends "admin.html" %}
 
 {% block board %}
 <div class="border border-danger p-4" style="margin:auto; width: 40%;">
@@ -34,23 +34,22 @@
 
 <script>
     function email(termsCheckBox){
-    //If the checkbox has been checked
         if(termsCheckBox.checked){
-            //Set the disabled property to FALSE and enable the button.
             document.getElementById("email_input").disabled = false;
-        } else{
-            //Otherwise, disable the submit button.
-            
-            document.getElementById("email_input").disabled = true;
-           // document.getElementsById("email_input").empty();    
+        } else{           
+            document.getElementById("email_input").disabled = true;    
         }
     }
-
-
 </script>
-
-
 {% endblock %}
 
+{% block sidemenu %}
+<div class="sidenav">
+    <a href="/manage">Manage</a>
+    <a href="/select">Select</a>
+    <a href="/admin">Home</a>
+    <a href="#">Contact</a>
+</div>
+{% endblock %}
 
 
