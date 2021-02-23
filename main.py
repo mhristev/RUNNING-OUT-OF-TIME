@@ -31,11 +31,16 @@ class Task(db.Model):
     def is_active(self):
         return True
 
-'''class done_Task:
-    done_date
-    person_name
-    task_name
-'''
+class done_Task:
+    done_date = db.Column(db.DateTime)
+    person_name = db.Column(db.String(150), nullable=False)
+    task_name = db.Column(db.String(75), nullable=False, unique=True)
+
+    def __init__(self, done_date, person_date, task_name):
+        self.done_date = done_date
+        self.person_name = person_date
+        self.task_name = task_name
+
 
 db.create_all()
 @app.route('/', methods=['POST', 'GET'])
