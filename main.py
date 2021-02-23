@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 import os
+from datetime import date
 
 app = Flask(__name__)
 file_path = os.path.abspath(os.getcwd())+"/my404_database.db"
@@ -11,15 +12,19 @@ db = SQLAlchemy(app)
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    how_often = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(75), nullable=False, unique=True)
+    period = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(150), nullable=False, unique=True)
+    shift = db.Column(db.String(6), nullable=False)
     done_by = db.Column(db.String(150))
     #done_date = db.Column(db.DateTime)
 
 
-    def __init__(self, how_often, description):
-        self.how_often = how_often
+    def __init__(self, name, period, description, shift):
+        self.name = name
+        self.period = period
         self.description = description
+        self.shift = shift
 
     def is_active(self):
         return True
@@ -57,12 +62,15 @@ def manage():
         shift = request.form.get('shift')
         first_a = request.form.get('first_a')
         second_a = request.form.get('second_a')
-        print(first_a)
-        print(second_a)
-        #period = second_a - first_a
-        #print(period)
+
+        First_A = [int(x) for x in first_a.split('/') if x.strip()]
+        Second_A = [int(x) for x in second_a.split('/') if x.strip()]
+        d0 = date(First_A[2], First_A[1], First_A[0])
+        d1 = date(Second_A[2], Second_A[1], Second_A[0])
+        period = abs((d1 - d0).days)
+
         if name and des and shift:
-            new_task = Task(des, shift)
+            new_task = Task(name, period, des, shift)
             db.session.add(new_task)
             db.session.commit()
 
