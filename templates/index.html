@@ -72,17 +72,12 @@
 			
 			<ul class="drag-inner-list" id="1">
 
-
-
-
 				{% for task in tasks %}
-					{% if task.next_alert == date.today() %}
-
 						<li class="drag-item">
 							<div style=" width: 250px;
 							padding: 20px;
 							border: 2px solid gray;
-							box-sizing: border-box; margin: auto;">task.name </div>
+							box-sizing: border-box; margin: auto;"> {{task.name}} </div>
 
 							<!-- Button trigger modal -->
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -100,12 +95,9 @@
 									</button>
 									</div>
 									<div class="modal-body">
-										task.description
-										<!--<ul style="color: black;">
-											<li>1. Coffee</li>
-											<li>2. Tea</li>
-											<li>3. Milk</li>
-										</ul>-->
+										<ul style="color: black;">
+											<li>{{task.description}}</li>
+										</ul>
 									</div>
 									<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -134,21 +126,17 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Send</button>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Send</button>
 									</div>
 								</div>
 								</div>
 							</div>
 
-							<h>Due 12:00</h>
+							<h>Shift {{ task.shift}}</h>
 						</li>
-					{% endif %}
 				{% endfor %}
 
 
-
-
-				<li class="drag-item"></li>
 			</ul>
 		</li>
 		<li class="drag-column drag-column-in-progress">

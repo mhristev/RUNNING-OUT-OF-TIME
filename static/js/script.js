@@ -52,3 +52,8 @@ dragula([
 
 createOptions.create();
 showOptions.init();
+
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});

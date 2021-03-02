@@ -47,13 +47,7 @@
                             First Alert 
                         </label> 
                         <div class="input-group date"> 
-                            <span class="input-group-prepend"> 
-                                <span class="input-group-text"> 
-                                    <i class="fa fa-calendar" 
-                                        onclick="setDatepicker(this)"> 
-                                    </i> 
-                                </span> 
-                            </span> 
+                            
                             <input class="form-control" type="date"
                                 name="first_a" id="first_a" value="">
                         </div> 
@@ -66,13 +60,7 @@
                             Second Alert 
                         </label> 
                         <div class="input-group date"> 
-                            <span class="input-group-prepend"> 
-                                <span class="input-group-text"> 
-                                    <i class="fa fa-calendar" 
-                                        onclick="setDatepicker(this)"> 
-                                    </i> 
-                                </span> 
-                            </span> 
+                            
                             <input class="form-control" type="date"
                                 name="second_a" id="second_a" value="">
                         </div> 
@@ -90,6 +78,58 @@
     </div>
     </div>
 
+
+
+    <!-- Demo header-->
+    <section class="pb-5 header text-center">
+        <div class="container py-5 text-black">
+            <div class="row">
+                <div class="col-lg-7 mx-auto">
+                    <div class="card border-0 shadow">
+                        <div class="card-body p-5">
+                            <!-- Responsive table -->
+                            <div class="table-responsive">
+                                <table class="table m-0">
+                                    <thead>
+                                        <tr  style="color:black">
+                                            <th scope="col">Task</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Next appearance</th>
+                                            <th scope="col">Shift</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for task in tasks %}
+                                            <tr style="color:black">
+                                                <th scope="row">{{task.name}}</th>
+                                                <td>{{task.description}}</td>
+                                                <td>{{task.next_alert}}</td>
+                                                <td>{{task.shift}}</td>
+                                                <td>
+                                                    <!-- Call to action buttons -->
+                                                    <ul class="list-inline m-0">
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Add"><i class="fa fa-table"></i></button>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <script type="text/javascript"> 
