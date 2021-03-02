@@ -77,15 +77,15 @@
 							<div style=" width: 250px;
 							padding: 20px;
 							border: 2px solid gray;
-							box-sizing: border-box; margin: auto;"> {{task.name}} </div>
+							box-sizing: border-box; margin: auto;"> {{task['name']}} </div>
 
 							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#description{{task.id}}">
 								Description
 							</button>
 
 							<!-- Modal -->
-							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal fade" id="description{{task.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -105,6 +105,8 @@
 								</div>
 								</div>
 							</div>
+
+
 
 							<button type="button" id="my-button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenters"  style="display: none; float:right; margin-top: 80px; margin-right: 10px;">
 								Send

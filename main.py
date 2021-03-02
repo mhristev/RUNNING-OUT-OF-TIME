@@ -5,7 +5,7 @@ from datetime import date, datetime
 admin = 0
 
 app = Flask(__name__)
-file_path = os.path.abspath(os.getcwd())+"/my404_database.db"
+file_path = os.path.abspath(os.getcwd())+"/database.db"
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + file_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -58,19 +58,7 @@ def home():
 
 
     else:
-        #tasks = Task.query.all()
-        #print(tasks[0].next_alert)
         today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
-        print(today_d)
-        task2=Task.query.filter_by(next_alert=today_d)
-        print(task2[0].description)
-       # tasks_html = []
-        #for task in tasks:
-         #   if task.next_alert == today:
-                #task.next_alert += datetime.timedelta(days=task.period)
-           #     tasks_html.
-
-       # print(tasks_html)
         return render_template('index.html', tasks=Task.query.filter_by(next_alert=today_d))
 
 
@@ -96,26 +84,11 @@ def manage():
         shift = request.form.get('shift')
         start_date = datetime.strptime(request.form['first_a'], '%Y-%m-%d').date()
         second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
-        #print(type(start_date))
-        #print(start_date)
-        #print(type(second_a))
+        
         
         period = second_date - start_date
         period = period.days
-        #print("period = ", type(period.days))
-
-        #First_A = [int(x) for x in first_a.split('/') if x.strip()]
-        #Second_A = [int(x) for x in second_a.split('/') if x.strip()]
-        #d0 = date(First_A[2], First_A[1], First_A[0])
-        #d1 = date(Second_A[2], Second_A[1], Second_A[0])
-        #period = abs((d1 - d0).days)
-
-        #startdate = datetime.date(request.form['first_a'])
-
-        #print(startdate)
-
         
-        #print(first_a)
         if name:
             new_task = Task(name, period, des, shift, start_date)
             db.session.add(new_task)

@@ -81,17 +81,17 @@
 
 
     <!-- Demo header-->
-    <section class="pb-5 header text-center">
-        <div class="container py-5 text-black">
-            <div class="row">
-                <div class="col-lg-7 mx-auto">
-                    <div class="card border-0 shadow">
-                        <div class="card-body p-5">
+    <section class="pb-5 header text-center" >
+        <div class="container py-5 text-white" >
+            <div class="row" >
+                <div class="col-lg-13 mx-auto" >
+                    <div class="card border-0 shadow" style="background-color:  rgba(0, 0, 0, 0.2);">
+                        <div class="card-body p-6">
                             <!-- Responsive table -->
                             <div class="table-responsive">
                                 <table class="table m-0">
                                     <thead>
-                                        <tr  style="color:black">
+                                        <tr  style="color:white">
                                             <th scope="col">Task</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Next appearance</th>
@@ -100,24 +100,27 @@
                                     </thead>
                                     <tbody>
                                         {% for task in tasks %}
-                                            <tr style="color:black">
-                                                <th scope="row">{{task.name}}</th>
+                                            <tr style="color: white">
+                                                <td scope="row">{{task.name}}</td>
                                                 <td>{{task.description}}</td>
                                                 <td>{{task.next_alert}}</td>
                                                 <td>{{task.shift}}</td>
                                                 <td>
+                                                <ul class="list m-1" style="display: inline-block; padding: 5px;">
+                                                    <button class="btn btn-success btn-large" >EDIT</button>
+                                                    <button class="btn btn-danger btn-large" >DELETE</button>
+                                                </ul>
+                                                   <!-- <a type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" ><i class="fas fa-plus-circle fa-2x"></i></a> -->
                                                     <!-- Call to action buttons -->
-                                                    <ul class="list-inline m-0">
+                                                  <!-- <ul class="list m-5" style="display: inline-block; padding: 5px;">
                                                         <li class="list-inline-item">
-                                                            <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Add"><i class="fa fa-table"></i></button>
+                                                            <button class="btn btn-success btn-large" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</button>
                                                         </li>
+                                                       
                                                         <li class="list-inline-item">
-                                                            <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                                            <button class="btn btn-danger btn-large" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash fa-2x"></i></button>
                                                         </li>
-                                                        <li class="list-inline-item">
-                                                            <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
-                                                        </li>
-                                                    </ul>
+                                                    </ul>--> 
                                                 </td>
                                             </tr>
                                         {% endfor %}
