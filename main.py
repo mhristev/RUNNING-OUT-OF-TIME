@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import date, datetime
+
+
 admin = 0
 
 app = Flask(__name__)
@@ -98,6 +100,26 @@ def manage():
 
     else:
         return render_template("manage.html", tasks=Task.query.all())
+
+
+@app.route('/edit', methods=['POST', 'GET'])
+def edit():
+    if request.method == 'POST':
+        return render_template("manage.html", tasks=Task.query.all())
+    else:
+        return render_template("manage.html", tasks=Task.query.all())
+
+
+@app.route('/delete/<task_id>', methods=['POST', 'GET'])
+def delete(task_id):
+    if request.method == 'POST':
+        print(task_id)
+        Task.query.filter_by(id=task_id).delete()
+        db.session.commit()
+
+        return redirect(url_for('manage'))
+    else:
+        return redirect(url_for('manage'))
 
 
 if __name__ == '__main__':

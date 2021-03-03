@@ -89,6 +89,7 @@ ul {
   background: rgba(0, 0, 0, 0.4);
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
+
 .drag-item.is-moving {
   transform: scale(1.5);
   background: rgba(0, 0, 0, 0.8);

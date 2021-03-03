@@ -60,7 +60,6 @@
                             Second Alert 
                         </label> 
                         <div class="input-group date"> 
-                            
                             <input class="form-control" type="date"
                                 name="second_a" id="second_a" value="">
                         </div> 
@@ -77,6 +76,14 @@
 
     </div>
     </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -100,6 +107,71 @@
                                     </thead>
                                     <tbody>
                                         {% for task in tasks %}
+                                        <div class="modal fade" id="edit{{task.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: black;">
+                                            <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <form>
+                                                    <div class="form-group">
+                                                      <label for="recipient-name" class="col-form-label">Task:</label>
+                                                      <!--<input type="text" class="form-control" id="recipient-name">-->
+                                                      <textarea name="post_bio_edit" type="text" class="form-control" id="message-text">{{task.name}}</textarea>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                      <label for="message-text" class="col-form-label">Description:</label>
+                                                      <textarea name="post_bio_edit" type="text" class="form-control" id="message-text">{{task.description}}</textarea>
+                                                    </div>
+
+                                                    
+                                                    
+                                                    <div class="form-check">
+                                                        <input class="col-form-label" type="checkbox" value="1" id="defaultCheck2" onclick="date(this)">
+                                                        <label class="col-form-label" for="defaultCheck2"> Change the period? </label>
+                                                    </div>
+
+                                                    <label for="date_input" class="col-form-label">First Alert At:</label>
+                                                    <div class="input-group date"> 
+                                                        <input class="form-control" id="date_input" type="date" value="" disabled> 
+                                                    </div>
+
+                                                    <label for="date_input" class="col-form-label">Second Alert At:</label>
+                                                    <div class="input-group date"> 
+                                                        <input class="form-control" id="date_input2" type="date" value="" disabled> 
+                                                    </div>
+                                                    
+                                                    <div class="form-checks">
+                                                        <input class="col-form-label" type="checkbox" value="1" id="defaultCheck3" onclick="s(this)">
+                                                        <label class="col-form-label" for="defaultCheck3"> Change the Shift? </label>
+                                                    </div>
+
+                                                    <div class="form-group" style="margin:auto">
+                                                        <label for="exampleFormControlSelect1">Shift</label>
+                                                        <select class="form-control" name="shift" id="shift" disabled>
+                                                            <option></option>
+                                                            <option>First</option>
+                                                            <option>Second</option>
+                                                        </select>
+                                                    </div>
+
+                                                  </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                  <button type="button" class="btn btn-primary">Confirm</button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+
+
                                             <tr style="color: white">
                                                 <td scope="row">{{task.name}}</td>
                                                 <td>{{task.description}}</td>
@@ -107,8 +179,14 @@
                                                 <td>{{task.shift}}</td>
                                                 <td>
                                                 <ul class="list m-1" style="display: inline-block; padding: 5px;">
-                                                    <button class="btn btn-success btn-large" >EDIT</button>
-                                                    <button class="btn btn-danger btn-large" >DELETE</button>
+                                                    <button class="btn btn-success btn-large" data-target="#edit{{task.id}}" data-toggle="modal" type="button" >EDIT</button>
+                                                    <form method="POST" action="{{ url_for('delete', task_id=task.id) }}">
+                                                        <button class="btn btn-danger btn-large" onclick="return confirm('Are you sure you want to delete this post?')">DELETE</button>
+                                                    </form>
+
+
+                                                    
+                                                   
                                                 </ul>
                                                    <!-- <a type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" ><i class="fas fa-plus-circle fa-2x"></i></a> -->
                                                     <!-- Call to action buttons -->
@@ -136,6 +214,24 @@
 
 
     <script type="text/javascript"> 
+        function date(termsCheckBox){
+            if(termsCheckBox.checked){
+                document.getElementById("date_input").disabled = false;
+                document.getElementById("date_input2").disabled = false;
+            } else{           
+                document.getElementById("date_input").disabled = true;    
+                document.getElementById("date_input2").disabled = true;  
+            }
+        }
+
+        function s(termsCheckBox) {
+            if(termsCheckBox.checked){
+                document.getElementById("shift").disabled = false;
+            } else{           
+                document.getElementById("shift").disabled = true;  
+            }
+        }
+        
         function setDatepicker(_this) { 
 
             /* Get the parent class name so we  
