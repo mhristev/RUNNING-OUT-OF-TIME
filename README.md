@@ -1,2 +1,5 @@
 # RUNNING-OUT-OF-TIME
-ne bro
+
+source env/bin/activate
+export FLASK_ENV=development
+python main.py
