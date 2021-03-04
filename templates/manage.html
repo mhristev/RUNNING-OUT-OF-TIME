@@ -1,6 +1,7 @@
 {% extends "admin.html"  %}
 
-{% block board %} 
+{% block board %}
+
     <script src= 
         "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"> 
             </script>
@@ -86,7 +87,13 @@
 
 
 
-
+    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for msg in messages %}
+                            <h5>{{msg}}</h5>
+                        {% endfor %}
+                    {% endif %}
+    {% endwith %}
     <!-- Demo header-->
     <section class="pb-5 header text-center" >
         <div class="container py-5 text-white" >
@@ -111,7 +118,7 @@
                                             <div class="modal-dialog" role="document">
                                               <div class="modal-content">
                                                 <div class="modal-header">
-                                                  <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                                                  <h5 class="modal-title" id="exampleModalLabel1">Edit</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                   </button>
@@ -121,31 +128,31 @@
                                                     <div class="form-group">
                                                       <label for="recipient-name" class="col-form-label">Task:</label>
                                                       <!--<input type="text" class="form-control" id="recipient-name">-->
-                                                      <textarea name="post_bio_edit" type="text" class="form-control" id="message-text">{{task.name}}</textarea>
+                                                      <textarea class="form-control" name="task_name_edit" id="task_name_edit">{{task.name}}</textarea>
                                                     </div>
 
                                                     <div class="form-group">
                                                       <label for="message-text" class="col-form-label">Description:</label>
-                                                      <textarea name="post_bio_edit" type="text" class="form-control" id="message-text">{{task.description}}</textarea>
+                                                      <textarea name="task_bio_edit" type="text" class="form-control" id="task_bio_edit">{{task.description}}</textarea>
                                                     </div>
 
-                                                    
-                                                    
+
+
                                                     <div class="form-check">
                                                         <input class="col-form-label" type="checkbox" value="1" id="defaultCheck2" onclick="date(this)">
                                                         <label class="col-form-label" for="defaultCheck2"> Change the period? </label>
                                                     </div>
 
                                                     <label for="date_input" class="col-form-label">First Alert At:</label>
-                                                    <div class="input-group date"> 
-                                                        <input class="form-control" id="date_input" type="date" value="" disabled> 
+                                                    <div class="input-group date">
+                                                        <input class="form-control" id="date_input" name="first_alert_edit" type="date" value="" disabled>
                                                     </div>
 
                                                     <label for="date_input" class="col-form-label">Second Alert At:</label>
-                                                    <div class="input-group date"> 
-                                                        <input class="form-control" id="date_input2" type="date" value="" disabled> 
+                                                    <div class="input-group date">
+                                                        <input class="form-control" id="date_input2" name="second_alert_edit" type="date" value="" disabled>
                                                     </div>
-                                                    
+
                                                     <div class="form-checks">
                                                         <input class="col-form-label" type="checkbox" value="1" id="defaultCheck3" onclick="s(this)">
                                                         <label class="col-form-label" for="defaultCheck3"> Change the Shift? </label>
@@ -163,8 +170,11 @@
                                                   </form>
                                                 </div>
                                                 <div class="modal-footer">
-                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                  <button type="button" class="btn btn-primary">Confirm</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <form method="POST" action="{{ url_for('edit', my_task_id=task.id) }}">
+                                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                                    </form>
+
                                                 </div>
                                               </div>
                                             </div>

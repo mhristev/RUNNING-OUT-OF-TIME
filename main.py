@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import date, datetime
@@ -7,6 +7,7 @@ from datetime import date, datetime
 admin = 0
 
 app = Flask(__name__)
+app.secret_key = "swag"
 file_path = os.path.abspath(os.getcwd())+"/database.db"
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + file_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -56,6 +57,7 @@ def home():
             admin = 1
             return redirect(url_for('admin'))
         else:
+            flash("Wrong password for admin!", 'error')
             return redirect(url_for('home'))
 
 
@@ -84,9 +86,25 @@ def manage():
         name = request.form.get('name')
         des = request.form.get('description')
         shift = request.form.get('shift')
-        start_date = datetime.strptime(request.form['first_a'], '%Y-%m-%d').date()
-        second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
-        
+        if request.form['first_a'] and request.form['second_a']:
+            start_date = datetime.strptime(request.form['first_a'], '%Y-%m-%d').date()
+            second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
+        else:
+            flash("Your task doesn't have some of his alerts!", 'error')
+            return redirect(url_for('manage'))
+
+        if not name:
+            flash("Your task doesn't have name!", 'error')
+            return redirect(url_for('manage'))
+        elif not shift:
+            flash("Your task doesn't have shift!", 'error')
+            return redirect(url_for('manage'))
+        elif second_date < start_date:
+            flash('Your period is negative!', 'error')
+            return redirect(url_for('manage'))
+        elif start_date < date.today():
+            flash('Your first alert has passed!', 'error')
+            return redirect(url_for('manage'))
         
         period = second_date - start_date
         period = period.days
@@ -102,12 +120,64 @@ def manage():
         return render_template("manage.html", tasks=Task.query.all())
 
 
-@app.route('/edit', methods=['POST', 'GET'])
-def edit():
+@app.route('/edit/<my_task_id>', methods=['POST', 'GET'])
+def edit(my_task_id):
     if request.method == 'POST':
-        return render_template("manage.html", tasks=Task.query.all())
+        task = Task.query.filter_by(id=my_task_id)
+
+        task_name_new = request.form.get('task_name_edit')
+        task_bio_new = request.form.get('task_bio_edit')
+        print(task_name_new)
+        print(task_bio_new)
+        print(1)
+
+        '''if 'task_name_edit' in request.form:
+            print('In')
+        else:
+            print('Out')
+        '''
+        '''if request.form['first_a'] and request.form['second_a']:
+            start_date = datetime.strptime(request.form['first_a'], '%Y-%m-%d').date()
+            second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
+            if second_date < start_date:
+                flash('Your period is negative!', 'error')
+                return redirect(url_for('manage'))
+
+            elif start_date < date.today():
+                flash('Your first alert has passed!', 'error')
+                return redirect(url_for('manage'))
+            period = second_date - start_date
+            task.period = period
+
+        elif request.form['first_a']:
+            flash("Your task doesn't have second alert", 'error')
+            return redirect(url_for('manage'))
+
+        elif request.form['second_a']:
+            flash("Your task doesn't have first alert", 'error')
+            return redirect(url_for('manage'))
+'''
+        if not task_name_new:
+            flash("Your task doesn't have name!", 'error')
+            return redirect(url_for('manage'))
+        elif not task_bio_new:
+            flash("Your task doesn't have shift!", 'error')
+            return redirect(url_for('manage'))
+
+        if request.form.get('shift'):
+            task_shift_new = request.form.get('shift')
+            task.shift = task_shift_new
+
+        task.name = task_name_new
+        task.description = task_bio_new
+
+        print(task.name)
+        print(task.description)
+
+        db.session.commit()
+        return redirect(url_for('manage'))
     else:
-        return render_template("manage.html", tasks=Task.query.all())
+        return redirect(url_for('manage'))
 
 
 @app.route('/delete/<task_id>', methods=['POST', 'GET'])
@@ -122,5 +192,6 @@ def delete(task_id):
         return redirect(url_for('manage'))
 
 
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
