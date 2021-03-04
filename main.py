@@ -123,22 +123,14 @@ def manage():
 @app.route('/edit/<my_task_id>', methods=['POST', 'GET'])
 def edit(my_task_id):
     if request.method == 'POST':
-        task = Task.query.filter_by(id=my_task_id)
+        task = Task.query.filter_by(id=my_task_id).first()
 
         task_name_new = request.form.get('task_name_edit')
         task_bio_new = request.form.get('task_bio_edit')
-        print(task_name_new)
-        print(task_bio_new)
-        print(1)
 
-        '''if 'task_name_edit' in request.form:
-            print('In')
-        else:
-            print('Out')
-        '''
-        '''if request.form['first_a'] and request.form['second_a']:
-            start_date = datetime.strptime(request.form['first_a'], '%Y-%m-%d').date()
-            second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
+        if 'first_alert_edit' in request.form and 'second_alert_edit' in request.form:
+            start_date = datetime.strptime(request.form['first_alert_edit'], '%Y-%m-%d').date()
+            second_date = datetime.strptime(request.form['second_alert_edit'], '%Y-%m-%d').date()
             if second_date < start_date:
                 flash('Your period is negative!', 'error')
                 return redirect(url_for('manage'))
@@ -146,17 +138,19 @@ def edit(my_task_id):
             elif start_date < date.today():
                 flash('Your first alert has passed!', 'error')
                 return redirect(url_for('manage'))
+
             period = second_date - start_date
             task.period = period
+            task.next_alert = start_date
 
-        elif request.form['first_a']:
+        elif 'first_alert_edit' in request.form:
             flash("Your task doesn't have second alert", 'error')
             return redirect(url_for('manage'))
 
-        elif request.form['second_a']:
+        elif 'second_alert_edit' in request.form:
             flash("Your task doesn't have first alert", 'error')
             return redirect(url_for('manage'))
-'''
+
         if not task_name_new:
             flash("Your task doesn't have name!", 'error')
             return redirect(url_for('manage'))
@@ -170,9 +164,6 @@ def edit(my_task_id):
 
         task.name = task_name_new
         task.description = task_bio_new
-
-        print(task.name)
-        print(task.description)
 
         db.session.commit()
         return redirect(url_for('manage'))
@@ -191,6 +182,19 @@ def delete(task_id):
     else:
         return redirect(url_for('manage'))
 
+@app.route('/send/<task_id>', methods=['POST', 'GET'])
+def send(task_id):
+    if request.method == 'POST':
+        task = Task.query.filter_by(id=task_id).first()
+        person_name = request.form.get('person_name')
+        done_task = done_Task(date.today(), person_name, task.name)
+
+        db.session.add(done_task)
+        db.session.commit()
+
+        return redirect(url_for('home'))
+    else:
+        return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
