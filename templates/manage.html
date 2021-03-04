@@ -124,7 +124,7 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                  <form>
+                                                  <form method="POST" action="{{ url_for('edit', my_task_id=task.id) }}">
                                                     <div class="form-group">
                                                       <label for="recipient-name" class="col-form-label">Task:</label>
                                                       <!--<input type="text" class="form-control" id="recipient-name">-->
@@ -167,15 +167,16 @@
                                                         </select>
                                                     </div>
 
-                                                  </form>
+                                                
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <form method="POST" action="{{ url_for('edit', my_task_id=task.id) }}">
-                                                        <button type="submit" class="btn btn-primary">Confirm</button>
-                                                    </form>
+                                                    
+                                                    <button type="submit" class="btn btn-primary">Confirm</button>
+                                                
 
                                                 </div>
+                                            </form>
                                               </div>
                                             </div>
                                           </div>
