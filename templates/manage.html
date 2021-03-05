@@ -90,7 +90,7 @@
     {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% for msg in messages %}
-                            <h5>{{msg}}</h5>
+                            <h5 style="text-align: center; color: red;">{{msg}}</h5>
                         {% endfor %}
                     {% endif %}
     {% endwith %}
