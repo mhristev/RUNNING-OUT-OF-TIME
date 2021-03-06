@@ -212,7 +212,8 @@ def edit(my_task_id):
 @app.route('/delete/<task_id>', methods=['POST', 'GET'])
 @login_required
 def delete(task_id):
-    if request.method == 'POST' and current_user.get_id() == 1:
+    if request.method == 'POST':
+        print("i am here")
         Task.query.filter_by(id=task_id).delete()
         db.session.commit()
 
