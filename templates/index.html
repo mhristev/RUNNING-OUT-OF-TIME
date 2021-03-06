@@ -78,9 +78,8 @@
 			<div class="drag-options" id="options1"></div>
 			
 			<ul class="drag-inner-list" id="1">
-
 				{% for task in tasks %}
-						<li class="drag-item">
+						<li class="drag-item" id="id{{task.id}}">
 							<div style=" width: 250px;
 							padding: 20px;
 							border: 2px solid gray;
@@ -115,7 +114,7 @@
 
 
 
-							<button type="button" id="my-button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenters"  style="display: none; float:right; margin-top: 80px; margin-right: 10px;">
+							<button type="button" id="my-button{{task.id}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenters"  style="display: none; float:right; margin-top: 80px; margin-right: 10px;">
 								Send
 							</button>
 

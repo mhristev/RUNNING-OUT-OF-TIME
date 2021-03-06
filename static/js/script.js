@@ -13,18 +13,22 @@ dragula([
 .on('dragend', function(el) {
 	var p = $(el).parents('ul').first().attr('id');
 
+	var k = $(el).attr('id');
+	k = k.substring(2);
+	var name = "#my-button" + k;
+
 	if (p == 3) {
 		//window.document.getElementById('my-button').show();
 		//window.document.write(p);
 		// vliza, no ne namira butona
-		$("#my-button").show();
+		$(name).show();
 		
 		//window.WritableStream("asd");
 		//window.document.getElementsByClassName("drag-inner-list")[p-1].getElementById('my-button').hidden();
 		//window.document.getElementById('my-button').hidden();
 		
 	} else {
-		$("#my-button").hide();
+		$(name).hide();
 	}
 	
 	//window.document.write("here1");
