@@ -1,7 +1,7 @@
 dragula([
 	document.getElementById('1'),
-	document.getElementById('2'), // UL id
-	document.getElementById('3'),
+	document.getElementById('2'),
+	document.getElementById('3')
 ])
 
 .on('drag', function(el) {
@@ -12,7 +12,7 @@ dragula([
 })
 .on('dragend', function(el) {
 	var p = $(el).parents('ul').first().attr('id');
-
+    console.log(el)
 	var k = $(el).attr('id');
 	k = k.substring(2);
 	var name = "#my-button" + k;
