@@ -7,14 +7,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, current_user, login_required, logout_user
 from flask_security import UserMixin
 import email_validator
-from flask_msearch import Search
 
 
 
 app = Flask(__name__)
 
-
-#security
 app.secret_key = "swag"
 login_manager = LoginManager(app)
 
@@ -25,8 +22,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db = SQLAlchemy(app)
-search = Search()
-search.init_app(app)
+
 
 
 @login_manager.user_loader
@@ -47,7 +43,6 @@ class User(db.Model, UserMixin):
 
 
 class Task(db.Model):
-    __searchable__ = ['name', 'shift']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(75), nullable=False, unique=True)
     period = db.Column(db.Integer, nullable=False)
@@ -64,8 +59,6 @@ class Task(db.Model):
         self.next_alert = next_alert
 
 
-    def __repr__(self):
-        return '<Task %r>' % self.name
 
 
 
@@ -109,16 +102,6 @@ def home():
 
 
 
-@app.route('/search', methods=['POST', 'GET'])
-@login_required
-def search():
-    keyword = request.form.get('tursq')
-
-    results = Task.query.msearch(keyword)
-
-
-    return render_template('manage.html', tasks=results)
-
 
 @app.route('/admin', methods=['POST', 'GET'])
 @login_required
@@ -141,14 +124,15 @@ def manage():
         des = request.form.get('description')
         shift = request.form.get('shift')
 
+
         if request.form['first_a'] and request.form['second_a']:
             start_date = datetime.strptime(request.form['first_a'], '%Y-%m-%d').date()
-            print(start_date)
             second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
         else:
-            flash("Your task doesn't have some of his alerts!", 'error')
+            print("here")
+            flash("Your task doesn't have some of its alerts!", 'error')
             return redirect(url_for('manage'))
-
+        
         if not name:
             flash("Your task doesn't have name!", 'error')
             return redirect(url_for('manage'))
@@ -179,7 +163,7 @@ def manage():
 @app.route('/edit/<my_task_id>', methods=['POST', 'GET'])
 @login_required
 def edit(my_task_id):
-    if request.method == 'POST' and current_user.get_id() == 1:
+    if request.method == 'POST':
         task = Task.query.filter_by(id=my_task_id).first()
 
         task_name_new = request.form.get('task_name_edit')
@@ -202,13 +186,6 @@ def edit(my_task_id):
             task.period = period
             task.next_alert = start_date
 
-        elif 'first_alert_edit' in request.form:
-            flash("Your task doesn't have second alert", 'error')
-            return redirect(url_for('manage'))
-
-        elif 'second_alert_edit' in request.form:
-            flash("Your task doesn't have first alert", 'error')
-            return redirect(url_for('manage'))
 
         if not task_name_new:
             flash("Your task doesn't have name!", 'error')

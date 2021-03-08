@@ -81,20 +81,6 @@
 
 
  
-          <form class="form-inline my-2 my-lg-0" method="POST" action="search">
-            <input class="form-control mr-sm-2" name="tursq" placeholder="Search" style=" margin:auto; width: 14%; float:right;  margin-right: 50%;">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
-          </form>
- 
-          <form method="GET" action="{{url_for('manage')}}" style="text-align: center;">
-              <button>View All</button>
-          </form>
-      
-
-
-
-
-
 
     {% with messages = get_flashed_messages() %}
                     {% if messages %}
@@ -133,10 +119,9 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                  <form method="POST" action="{{ url_for('edit', my_task_id=task.id) }}">
+                                                  <form method="POST" action="{{ url_for('edit', my_task_id=task.id) }}" name="edit" id={{task.id}} onsubmit="return validateFormEdit(this)">
                                                     <div class="form-group">
                                                       <label for="recipient-name" class="col-form-label">Task:</label>
-                                                      <!--<input type="text" class="form-control" id="recipient-name">-->
                                                       <textarea class="form-control" name="task_name_edit" id="task_name_edit">{{task.name}}</textarea>
                                                     </div>
 
@@ -148,28 +133,28 @@
 
 
                                                     <div class="form-check">
-                                                        <input class="col-form-label" type="checkbox" value="1" id="defaultCheck2" onclick="date(this)">
+                                                        <input class="col-form-label" type="checkbox" value="1" id="CheckBox{{task.id}}" onclick="date(this)">
                                                         <label class="col-form-label" for="defaultCheck2"> Change the period? </label>
                                                     </div>
 
-                                                    <label for="date_input" class="col-form-label">First Alert At:</label>
+                                                    <label for="date_input{{task.id}}" class="col-form-label">First Alert At:</label>
                                                     <div class="input-group date">
-                                                        <input class="form-control" id="date_input" name="first_alert_edit" type="date" value="" disabled>
+                                                        <input class="form-control" id="date_input{{task.id}}" name="first_alert_edit" type="date" value="" disabled>
                                                     </div>
 
-                                                    <label for="date_input" class="col-form-label">Second Alert At:</label>
+                                                    <label for="date_input{{task.id}}" class="col-form-label">Second Alert At:</label>
                                                     <div class="input-group date">
-                                                        <input class="form-control" id="date_input2" name="second_alert_edit" type="date" value="" disabled>
+                                                        <input class="form-control" id="date_input2{{task.id}}" name="second_alert_edit" type="date" value="" disabled>
                                                     </div>
 
                                                     <div class="form-checks">
-                                                        <input class="col-form-label" type="checkbox" value="1" id="defaultCheck3" onclick="s(this)">
+                                                        <input class="col-form-label" type="checkbox" value="0" id="Shift{{task.id}}" onclick="s(this)">
                                                         <label class="col-form-label" for="defaultCheck3"> Change the Shift? </label>
                                                     </div>
 
                                                     <div class="form-group" style="margin:auto">
                                                         <label for="exampleFormControlSelect1">Shift</label>
-                                                        <select class="form-control" name="shift" id="shift" disabled>
+                                                        <select class="form-control" name="shift" id="shift{{task.id}}" disabled>
                                                             <option></option>
                                                             <option>First</option>
                                                             <option>Second</option>
@@ -177,14 +162,14 @@
                                                     </div>
 
                                                 
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        
+                                                        <button type="submit" class="btn btn-primary">Confirm</button>
                                                     
-                                                    <button type="submit" class="btn btn-primary">Confirm</button>
-                                                
 
-                                                </div>
+                                                    </div>
                                             </form>
                                               </div>
                                             </div>
@@ -224,26 +209,7 @@
     </section>
 
 
-    <script type="text/javascript"> 
-        function date(termsCheckBox){
-            if(termsCheckBox.checked){
-                document.getElementById("date_input").disabled = false;
-                document.getElementById("date_input2").disabled = false;
-            } else{           
-                document.getElementById("date_input").disabled = true;    
-                document.getElementById("date_input2").disabled = true;  
-            }
-        }
 
-        function s(termsCheckBox) {
-            if(termsCheckBox.checked){
-                document.getElementById("shift").disabled = false;
-            } else{           
-                document.getElementById("shift").disabled = true;  
-            }
-        }
-        
-    </script>
 {% endblock %}
 
 
