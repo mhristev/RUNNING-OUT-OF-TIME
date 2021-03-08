@@ -3,7 +3,7 @@ from datetime import date, datetime
 from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user
 
-from database import User, Task, db, Done_Task, app
+from models import User, Task, db, Done_Task, app
 
 
 
