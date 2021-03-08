@@ -114,8 +114,7 @@ def home():
 @login_required
 def search():
     keyword = request.form.get('tursq')
-    print(keyword)
-    # more syntax please visit https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html
+
     results = Task.query.msearch(keyword)
 
 
@@ -264,6 +263,11 @@ def send(task_id):
 @login_required
 def logout():
     logout_user()
+    return redirect(url_for('home'))
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
