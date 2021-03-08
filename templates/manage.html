@@ -6,10 +6,11 @@
         "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"> 
             </script>
 
+
+
     <div class="border border-danger p-4" style="text-align: center; margin:auto; width: 40%;">
         <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" style="margin:auto" >Add new Task to DB</button> 
     </div>
-    <h5 style="text-align: center;"> Print all tasks in DB</h5>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" >
@@ -79,8 +80,16 @@
     </div>
 
 
-
-
+ 
+          <form class="form-inline my-2 my-lg-0" method="POST" action="search">
+            <input class="form-control mr-sm-2" name="tursq" placeholder="Search" style=" margin:auto; width: 14%; float:right;  margin-right: 50%;">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
+          </form>
+ 
+          <form method="GET" action="{{url_for('manage')}}" style="text-align: center;">
+              <button>View All</button>
+          </form>
+      
 
 
 
@@ -199,17 +208,8 @@
                                                     
                                                    
                                                 </ul>
-                                                   <!-- <a type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" ><i class="fas fa-plus-circle fa-2x"></i></a> -->
-                                                    <!-- Call to action buttons -->
-                                                  <!-- <ul class="list m-5" style="display: inline-block; padding: 5px;">
-                                                        <li class="list-inline-item">
-                                                            <button class="btn btn-success btn-large" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</button>
-                                                        </li>
-                                                       
-                                                        <li class="list-inline-item">
-                                                            <button class="btn btn-danger btn-large" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash fa-2x"></i></button>
-                                                        </li>
-                                                    </ul>--> 
+                                                
+   
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -243,28 +243,6 @@
             }
         }
         
-        function setDatepicker(_this) { 
-
-            /* Get the parent class name so we  
-                can show date picker */ 
-            let className = $(_this).parent() 
-                .parent().parent().attr('class'); 
-
-            // Remove space and add '.' 
-            let removeSpace = className.replace(' ', '.'); 
-
-            // jQuery class selector 
-            $("." + removeSpace).datepicker({ 
-                format: "dd / mm/ yyyy", 
-
-                // Positioning where the calendar is placed 
-                orientation: "bottom auto", 
-                // Calendar closes when cursor is  
-                // clicked outside the calendar 
-                autoclose: true, 
-                showOnFocus: "false" 
-            }); 
-        } 
     </script>
 {% endblock %}
 

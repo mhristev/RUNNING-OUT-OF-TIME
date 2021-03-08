@@ -36,10 +36,10 @@ dragula([
 	//window.document.write(el.attr("id"));
 
 
-	// remove 'is-moving' class from element after dragging has stopped
+	// after dragging has stopped
 	el.classList.remove('is-moving');
 	
-	// add the 'is-moved' class for 600ms then remove it
+
 	window.setTimeout(function() {
 		el.classList.add('is-moved');
 		window.setTimeout(function() {

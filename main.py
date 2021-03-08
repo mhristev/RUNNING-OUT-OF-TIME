@@ -7,10 +7,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, current_user, login_required, logout_user
 from flask_security import UserMixin
 import email_validator
+from flask_msearch import Search
 
 
 
 app = Flask(__name__)
+
 
 #security
 app.secret_key = "swag"
@@ -19,8 +21,13 @@ login_manager = LoginManager(app)
 file_path = os.path.abspath(os.getcwd())+"/database.db"
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + file_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+app.config['WHOOSH_BASE'] = 'whoosh'
 
+
+
+db = SQLAlchemy(app)
+search = Search()
+search.init_app(app)
 
 
 @login_manager.user_loader
@@ -41,14 +48,13 @@ class User(db.Model, UserMixin):
 
 
 class Task(db.Model):
+    __searchable__ = ['name', 'shift']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(75), nullable=False, unique=True)
     period = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(150), unique=True)
     shift = db.Column(db.String(6), nullable=False)
     next_alert = db.Column(db.DateTime)
-    done_by = db.Column(db.String(150), nullable=True)
-
 
 
     def __init__(self, name, period, description, shift, next_alert):
@@ -57,6 +63,11 @@ class Task(db.Model):
         self.description = description
         self.shift = shift
         self.next_alert = next_alert
+
+
+    def __repr__(self):
+        return '<Task %r>' % self.name
+
 
 
 class Done_Task(db.Model):
@@ -97,6 +108,18 @@ def home():
         today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
         return render_template('index.html', tasks=Task.query.filter_by(next_alert=today_d))
 
+
+
+@app.route('/search', methods=['POST', 'GET'])
+@login_required
+def search():
+    keyword = request.form.get('tursq')
+    print(keyword)
+    # more syntax please visit https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html
+    results = Task.query.msearch(keyword)
+
+
+    return render_template('manage.html', tasks=results)
 
 
 @app.route('/admin', methods=['POST', 'GET'])
