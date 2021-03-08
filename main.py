@@ -1,83 +1,9 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
-from flask_sqlalchemy import SQLAlchemy
-import os
+from flask import render_template, request, url_for, redirect, flash
 from datetime import date, datetime
+from werkzeug.security import check_password_hash
+from flask_login import login_user, login_required, logout_user
 
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, LoginManager, current_user, login_required, logout_user
-from flask_security import UserMixin
-import email_validator
-
-
-
-app = Flask(__name__)
-
-app.secret_key = "swag"
-login_manager = LoginManager(app)
-
-file_path = os.path.abspath(os.getcwd())+"/database.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + file_path
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-
-
-db = SQLAlchemy(app)
-
-
-
-@login_manager.user_loader
-def get_user(id):
-    return User.query.filter_by(id=id).first()
-
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    password = db.Column(db.String(100), nullable=False)
-
-    def __init__(self, password):
-        self.password = generate_password_hash(password)
-
-    def is_active(self):
-        return True
-
-
-
-class Task(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(75), nullable=False, unique=True)
-    period = db.Column(db.Integer, nullable=False)
-    description = db.Column(db.String(150), unique=True)
-    shift = db.Column(db.String(6), nullable=False)
-    next_alert = db.Column(db.DateTime)
-
-
-    def __init__(self, name, period, description, shift, next_alert):
-        self.name = name
-        self.period = period
-        self.description = description
-        self.shift = shift
-        self.next_alert = next_alert
-
-
-
-
-
-class Done_Task(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    done_date = db.Column(db.DateTime(timezone=True))
-    person_name = db.Column(db.String(150), nullable=False)
-    task_name = db.Column(db.String(75), nullable=False)
-
-    def __init__(self, person_date, task_name):
-        self.done_date = datetime.datetime.today().replace(microsecond=0)
-        self.person_name = person_date
-        self.task_name = task_name
-
-db.create_all()
-
-main_admin = User('admin')
-db.session.add(main_admin)
-db.session.commit()
+from database import User, Task, db, Done_Task, app
 
 
 
@@ -94,8 +20,6 @@ def home():
         else:
             flash("Wrong password for admin!", 'error')
             return redirect(url_for('home'))
-
-
     else:
         today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
         return render_template('index.html', tasks=Task.query.filter_by(next_alert=today_d))
@@ -103,7 +27,7 @@ def home():
 
 
 
-@app.route('/admin', methods=['POST', 'GET'])
+@app.route('/admin')
 @login_required
 def admin():
     today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
@@ -129,7 +53,6 @@ def manage():
             start_date = datetime.strptime(request.form['first_a'], '%Y-%m-%d').date()
             second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
         else:
-            print("here")
             flash("Your task doesn't have some of its alerts!", 'error')
             return redirect(url_for('manage'))
         
@@ -211,7 +134,6 @@ def edit(my_task_id):
 @login_required
 def delete(task_id):
     if request.method == 'POST':
-        print("i am here")
         Task.query.filter_by(id=task_id).delete()
         db.session.commit()
 
@@ -242,9 +164,6 @@ def logout():
     return redirect(url_for('home'))
 
 
-@login_manager.unauthorized_handler
-def unauthorized():
-    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
