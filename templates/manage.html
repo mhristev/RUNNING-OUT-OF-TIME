@@ -119,7 +119,7 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                  <form method="POST" action="{{ url_for('edit', my_task_id=task.id) }}" name="edit" id={{task.id}} onsubmit="return validateFormEdit(this)">
+                                                  <form method="POST" action="{{ url_for('edit', my_task_id=task.id) }}" name="edit{{task.id}}" id={{task.id}} onsubmit="return validateFormEdit(this.id)">
                                                     <div class="form-group">
                                                       <label for="recipient-name" class="col-form-label">Task:</label>
                                                       <textarea class="form-control" name="task_name_edit" id="task_name_edit">{{task.name}}</textarea>
@@ -134,7 +134,7 @@
 
                                                     <div class="form-check">
                                                         <input class="col-form-label" type="checkbox" value="1" id="CheckBox{{task.id}}" onclick="date(this)">
-                                                        <label class="col-form-label" for="defaultCheck2"> Change the period? </label>
+                                                        <label class="col-form-label" for="CheckBox{{task.id}}"> Change the period? </label>
                                                     </div>
 
                                                     <label for="date_input{{task.id}}" class="col-form-label">First Alert At:</label>
@@ -149,7 +149,7 @@
 
                                                     <div class="form-checks">
                                                         <input class="col-form-label" type="checkbox" value="0" id="Shift{{task.id}}" onclick="s(this)">
-                                                        <label class="col-form-label" for="defaultCheck3"> Change the Shift? </label>
+                                                        <label class="col-form-label" for="Shift{{task.id}}"> Change the Shift? </label>
                                                     </div>
 
                                                     <div class="form-group" style="margin:auto">

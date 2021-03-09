@@ -61,17 +61,16 @@ function date(termsCheckBox){
 }
 
 function validateFormEdit(formata) {
-	var p = $(formata).attr('id');
 	
-	first = "date_input" + p;
-	//window.document.write(first);
-	second = "date_input2" + p;
+	first = "date_input" + formata;
+	second = "date_input2" + formata;
 
+	edit4e = "edit" + formata;
 
+    var date1 = document.forms[edit4e][first].value;
+    var date2 = document.forms[edit4e][second].value;
 
-    var date1 = document.forms["edit"][first].value;
-    var date2 = document.forms["edit"][second].value;
-	//window.document.write(date1);	
+	
 
 	if (!document.getElementById(first).disabled) {
 		if (date1 == null || date1 == "", date2 == null || date2 == "") {
