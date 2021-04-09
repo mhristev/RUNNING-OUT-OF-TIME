@@ -1,3 +1,5 @@
+from time import sleep
+
 from flask import render_template, request, url_for, redirect, flash
 from datetime import date, datetime
 from werkzeug.security import check_password_hash
@@ -5,10 +7,26 @@ from flask_login import login_user, login_required, logout_user
 
 from models import User, Task, db, Done_Task, app
 
+from flask_mail import Mail, Message
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'email'
+app.config['MAIL_PASSWORD'] = 'pass'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
+
+    #msg = Message('Hello', sender=app.config.get("MAIL_USERNAME"), recipients=[''])
+    #msg.body = 'Testing email sending'
+    #mail.send(msg)
+    #sleep(5)
+    #mail.send(msg)
+
     if request.method == 'POST':
         password = request.form.get('password')
         
