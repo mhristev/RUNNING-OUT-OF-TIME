@@ -4,8 +4,9 @@ from flask import render_template, request, url_for, redirect, flash
 from datetime import date, datetime
 from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user
+from dateutil.relativedelta import relativedelta
 
-from models import User, Task, db, Done_Task, app
+from models import User, Task, db, Done_Task, app, Temporary_Task
 
 from flask_mail import Mail, Message
 
@@ -20,16 +21,15 @@ mail = Mail(app)
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
-
-    #msg = Message('Hello', sender=app.config.get("MAIL_USERNAME"), recipients=[''])
-    #msg.body = 'Testing email sending'
-    #mail.send(msg)
-    #sleep(5)
-    #mail.send(msg)
+    # msg = Message('Hello', sender=app.config.get("MAIL_USERNAME"), recipients=[''])
+    # msg.body = 'Testing email sending'
+    # mail.send(msg)
+    # sleep(5)
+    # mail.send(msg)
 
     if request.method == 'POST':
         password = request.form.get('password')
-        
+
         test = User.query.filter_by(id=1).first()
 
         if test and check_password_hash(test.password, password):
@@ -40,23 +40,21 @@ def home():
             return redirect(url_for('home'))
     else:
         today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
-        return render_template('index.html', tasks=Task.query.filter_by(next_alert=today_d))
-
-
+        return render_template('index.html', tasks=Task.query.filter_by(next_alert=today_d), temp_tasks=Temporary_Task.query.filter_by(date=today_d))
 
 
 @app.route('/admin')
 @login_required
 def admin():
     today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
-    return render_template("admin.html", tasks=Task.query.filter_by(next_alert=today_d))
-
+    return render_template("admin.html", tasks=Task.query.filter_by(next_alert=today_d), temp_tasks=Temporary_Task.query.filter_by(date=today_d))
 
 
 @app.route('/select', methods=['POST', 'GET'])
 @login_required
 def select():
     return render_template("select.html")
+
 
 @app.route('/manage', methods=['POST', 'GET'])
 @login_required
@@ -66,30 +64,34 @@ def manage():
         des = request.form.get('description')
         shift = request.form.get('shift')
 
-
-        if request.form['first_a'] and request.form['second_a']:
+        if request.form['first_a'] and request.form['period']:
             start_date = datetime.strptime(request.form['first_a'], '%Y-%m-%d').date()
-            second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
+            period = request.form['period']
+            period_type = request.form['period_type']
+
+            if period_type == 'Months':
+                print('In if')
+                next_alert = start_date + relativedelta(months=+period)
+                print('Here')
+                period = next_alert - start_date
+                period = period.days
+                # second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
         else:
             flash("Your task doesn't have some of its alerts!", 'error')
             return redirect(url_for('manage'))
-        
+
         if not name:
             flash("Your task doesn't have name!", 'error')
             return redirect(url_for('manage'))
         elif not shift:
             flash("Your task doesn't have shift!", 'error')
             return redirect(url_for('manage'))
-        elif second_date < start_date:
-            flash('Your period is negative!', 'error')
-            return redirect(url_for('manage'))
         elif start_date < date.today():
             flash('Your first alert has passed!', 'error')
             return redirect(url_for('manage'))
-        
-        period = second_date - start_date
-        period = period.days
-        
+
+        print(period)
+
         if name:
             new_task = Task(name, period, des, shift, start_date)
             db.session.add(new_task)
@@ -99,6 +101,24 @@ def manage():
 
     else:
         return render_template("manage.html", tasks=Task.query.all())
+
+
+@app.route('/add_temp', methods=['POST', 'GET'])
+def add_temp_task():
+    if request.method == 'POST':
+        if request.form.get('temporary_task_name') and request.form.get('temporary_task_des'):
+            temp_task_name = request.form.get('temporary_task_name')
+            temp_task_des = request.form.get('temporary_task_des')
+
+            new_task = Temporary_Task(temp_task_name, temp_task_des, date.today())
+            db.session.add(new_task)
+            db.session.commit()
+
+        else:
+            flash('Temporary task invalid!', 'error')
+            return redirect(url_for('home'))
+
+    return redirect(url_for('home'))
 
 
 @app.route('/edit/<my_task_id>', methods=['POST', 'GET'])
@@ -126,7 +146,6 @@ def edit(my_task_id):
             period = period.days
             task.period = period
             task.next_alert = start_date
-
 
         if not task_name_new:
             flash("Your task doesn't have name!", 'error')
@@ -180,7 +199,6 @@ def send(task_id):
 def logout():
     logout_user()
     return redirect(url_for('home'))
-
 
 
 if __name__ == '__main__':

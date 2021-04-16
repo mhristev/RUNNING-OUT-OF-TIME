@@ -40,34 +40,52 @@
                     <option>Second</option>
                     </select>
                 </div>
-                
-                
-        
-                <div class="container" style="max-width: 250px;"> 
-                    <div class="form-group m-1"> 
+
+
+
+                <div class="container" style="max-width: 250px;">
+                    <div class="form-group m-1">
                         <label class="font-weight-bold" for="first_a">
-                            First Alert 
-                        </label> 
-                        <div class="input-group date"> 
-                            
+                            First Alert
+                        </label>
+                        <div class="input-group date">
+
                             <input class="form-control" type="date"
                                 name="first_a" id="first_a" value="">
-                        </div> 
-                    </div> 
-                </div> 
+                        </div>
+                    </div>
+                </div>
 
-                <div class="container" style="max-width: 250px;"> 
-                    <div class="form-group m-1"> 
+                <!--<div class="container" style="max-width: 250px;">
+                    <div class="form-group m-1">
                         <label class="font-weight-bold" for="second_a">
-                            Second Alert 
-                        </label> 
-                        <div class="input-group date"> 
+                            Second Alert
+                        </label>
+                        <div class="input-group date">
                             <input class="form-control" type="date"
                                 name="second_a" id="second_a" value="">
-                        </div> 
-                    </div> 
-                </div> 
-    
+                        </div>
+                    </div>
+                </div>-->
+
+
+                    <div class="container" style="max-width: 250px;">
+                        <div class="form-group m-1">
+                            <label for="recipient-name" class="col-form-label">Period:</label>
+                            <input type="number" min="1" name="period" class="form-control" id="recipient-name1">
+                        </div>
+                    </div>
+
+
+                    <div class="container" style="max-width: 250px;">
+                        <div class="form-group m-1">
+                            <select class="form-control" name="period_type" id="exampleFormControlSelect2">
+                            <option>Days</option>
+                            <option>Months</option>
+                            </select>
+                        </div>
+                    </div>
+
         </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -75,6 +93,7 @@
                 </div>
             </form>
         </div>
+
 
     </div>
     </div>

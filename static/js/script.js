@@ -12,6 +12,15 @@ dragula([
 })
 .on('dragend', function(el) {
 
+    var p = $(el).parents('ul').first().attr('id');
+
+    var k = $(el).attr('id');
+	k = k.substring(2);
+
+    if(p == 3){
+        // Call flask function which will remove the task
+
+    }
 
 	// after dragging has stopped
 	el.classList.remove('is-moving');
