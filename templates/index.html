@@ -19,11 +19,11 @@
 <body>
 
 <section class="section">
-	<h1>Kanban </h1>
+	{% block h1 %} <h1>Дейности</h1> {% endblock %}
 	{% block login %}
 		<form action="/" method="POST" class="form-inline" style="float:right; margin-top: -55px;">
-			<input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" aria-label="Search" >
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit"> Login </button>
+			<input class="form-control mr-sm-2" type="password" name="password" placeholder="Парола" aria-label="Search" >
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit"> Влизане </button>
 		</form>
 		 {% with messages = get_flashed_messages() %}
 			{% if messages %}
@@ -44,7 +44,7 @@
 	<ul class="drag-list">
 		<li class="drag-column drag-column-on-hold">
 			<span class="drag-column-header">
-				<h2>On Hold</h2>
+				<h2 style="font-size: 20px;"> На изчакване </h2>
 				<a type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" ><i class="fas fa-plus-circle fa-2x"></i></a>  
 
 				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -54,24 +54,24 @@
 
 						<div class="modal-content" style="background-color: #33363D;">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Quick Add For Today</h5>
+							<h5 class="modal-title" id="exampleModalLabel" style="font-size: 25px;"> Бърза Задача За Днес</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
 							<div class="form-group">
-								<label for="temporary_task_name" class="col-form-label">Name:</label>
+								<label for="temporary_task_name" class="col-form-label"> Дейност: </label>
 								<input type="text" name="temporary_task_name" class="form-control" id="temporary_task_name">
 							</div>
 							<div class="form-group">
-								<label for="temporary_task_des" class="col-form-label">Description:</label>
+								<label for="temporary_task_des" class="col-form-label">Описание (при нужда):</label>
 								<textarea class="form-control" name="temporary_task_des" id="temporary_task_des"></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Create Temporary Task</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+							<button type="submit" class="btn btn-primary">Създаване</button>
 						</div>
 						</div>
 
@@ -99,7 +99,7 @@
 								<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLongTitle1" style="color:black">Description</h5>
+									<h5 class="modal-title" id="exampleModalLongTitle1" style="color:black">Описание</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
@@ -110,7 +110,7 @@
 										</ul>
 									</div>
 									<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
 									</div>
 								</div>
 								</div>
@@ -163,7 +163,7 @@
 								<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLongTitle" style="color:black">Description</h5>
+									<h5 class="modal-title" id="exampleModalLongTitle" style="color:black">Описание:</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
@@ -174,7 +174,7 @@
 										</ul>
 									</div>
 									<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
 									</div>
 								</div>
 								</div>
@@ -213,7 +213,7 @@
 						
 
 							<div class="text-right" style=" margin: auto; float: right; bottom: 10%; right:4%">
-								<h>Shift {{ task.shift}}</h>
+								<h>Смяна: {{ task.shift}}</h>
 							</div>
 
 						</li>
@@ -224,7 +224,7 @@
 		</li>
 		<li class="drag-column drag-column-in-progress">
 			<span class="drag-column-header">
-				<h2>In Progress</h2>
+				<h2 style="font-size: 20px;"> В прогрес </h2>
 				<i class="fab fa-battle-net fa-3x"></i>
 			</span>
 			<div class="drag-options" id="options2"></div>
@@ -234,7 +234,7 @@
 		
 		<li class="drag-column drag-column-approved">
 			<span class="drag-column-header">
-				<h2>Approved</h2>
+				<h2 style="font-size: 20px;"> Готови </h2>
 				<i class="fas fa-check fa-3x"></i>
 				<!--<svg data-target="options4" class="drag-header-more" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/</svg>-->
 			</span>
@@ -252,7 +252,8 @@
 
 
 <!-- partial -->
-  <script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/45226/dragula.min.js'></script><script  src="../static/js/script.js"></script>
+  <script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/45226/dragula.min.js'></script>
+  <script  src="../static/js/script.js"></script>
 
 </body>
 </html>
