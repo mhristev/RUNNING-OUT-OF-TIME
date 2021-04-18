@@ -1,5 +1,8 @@
 {% extends "admin.html"  %}
 
+
+ 
+
 {% block board %}
 
     <script src= 
@@ -9,50 +12,48 @@
 
 
     <div class="border border-danger p-4" style="text-align: center; margin:auto; width: 40%;">
-        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" style="margin:auto" >Add new Task to DB</button> 
+        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" style="margin:auto" >Създаване на Задача</button> 
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" >
         <div class="modal-content" style="background-color: #33363D;">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create new Task</h5>
+            <h5 class="modal-title" id="exampleModalLabel"> Създаване... </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-            <form method="POST" action="/manage">
+            <form method="POST" action="/manage" onsubmit="return validateFormCreate(this.id)">
                 <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <label for="recipient-name" class="col-form-label"> Дейност: </label>
                     <input type="text" name="name" class="form-control" id="recipient-name">
                 </div>
                 <div class="form-group">
-                    <label for="message-text" class="col-form-label">Description:</label>
+                    <label for="message-text" class="col-form-label"> Описание: </label>
                     <textarea class="form-control" name="description" id="message-text"></textarea>
                 </div>
 
                 <div class="form-group" style="margin:auto">
-                    <label for="exampleFormControlSelect1">Shift</label>
+                    <label for="exampleFormControlSelect1">Смяна: </label>
                     <select class="form-control" name="shift" id="exampleFormControlSelect1">
                     <option></option>
-                    <option>First</option>
-                    <option>Second</option>
+                    <option> Първа </option>
+                    <option> Втора </option>
                     </select>
                 </div>
 
 
-
+                
                 <div class="container" style="max-width: 250px;">
-                    <div class="form-group m-1">
-                        <label class="font-weight-bold" for="first_a">
-                            First Alert
+                    <div class="form-group m-1" >
+                        <label class="font-weight" for="first_a" >
+                            Първо показване
                         </label>
-                        <div class="input-group date">
-
+                        
                             <input class="form-control" type="date"
-                                name="first_a" id="first_a" value="">
-                        </div>
+                                name="first_a" id="first_a" value="" format="dd/mm/yyyy">
                     </div>
                 </div>
 
@@ -71,7 +72,7 @@
 
                     <div class="container" style="max-width: 250px;">
                         <div class="form-group m-1">
-                            <label for="recipient-name" class="col-form-label">Period:</label>
+                            <label for="recipient-name" class="col-form-label">Показвай на всеки:</label>
                             <input type="number" min="1" name="period" class="form-control" id="recipient-name1">
                         </div>
                     </div>
@@ -80,16 +81,16 @@
                     <div class="container" style="max-width: 250px;">
                         <div class="form-group m-1">
                             <select class="form-control" name="period_type" id="exampleFormControlSelect2">
-                            <option>Days</option>
-                            <option>Months</option>
+                            <option>Дена</option>
+                            <option>Месеца</option>
                             </select>
                         </div>
                     </div>
 
         </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Затваряне</button>
+                    <button type="submit" class="btn btn-primary">Създаване</button>
                 </div>
             </form>
         </div>
@@ -120,19 +121,19 @@
                                 <table class="table m-0">
                                     <thead>
                                         <tr  style="color:white">
-                                            <th scope="col">Task</th>
-                                            <th scope="col">Description</th>
-                                            <th scope="col">Next appearance</th>
-                                            <th scope="col">Shift</th>
+                                            <th scope="col">Дейност</th>
+                                            <th scope="col">Описание</th>
+                                            <th scope="col">Следващо показване</th>
+                                            <th scope="col">Смяна</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for task in tasks %}
                                         <div class="modal fade" id="edit{{task.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: black;">
                                             <div class="modal-dialog" role="document">
-                                              <div class="modal-content">
+                                              <div class="modal-content" style="background-color: #33363D; color: white;">
                                                 <div class="modal-header">
-                                                  <h5 class="modal-title" id="exampleModalLabel1">Edit</h5>
+                                                  <h5 class="modal-title" id="exampleModalLabel1">Коригиране</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                   </button>
@@ -140,12 +141,12 @@
                                                 <div class="modal-body">
                                                   <form method="POST" action="{{ url_for('edit', my_task_id=task.id) }}" name="edit{{task.id}}" id={{task.id}} onsubmit="return validateFormEdit(this.id)">
                                                     <div class="form-group">
-                                                      <label for="recipient-name" class="col-form-label">Task:</label>
+                                                      <label for="recipient-name" class="col-form-label"> Дейност: </label>
                                                       <textarea class="form-control" name="task_name_edit" id="task_name_edit">{{task.name}}</textarea>
                                                     </div>
 
                                                     <div class="form-group">
-                                                      <label for="message-text" class="col-form-label">Description:</label>
+                                                      <label for="message-text" class="col-form-label"> Описание: </label>
                                                       <textarea name="task_bio_edit" type="text" class="form-control" id="task_bio_edit">{{task.description}}</textarea>
                                                     </div>
 
@@ -153,41 +154,51 @@
 
                                                     <div class="form-check">
                                                         <input class="col-form-label" type="checkbox" value="1" id="CheckBox{{task.id}}" onclick="date(this)">
-                                                        <label class="col-form-label" for="CheckBox{{task.id}}"> Change the period? </label>
+                                                        <label class="col-form-label" for="CheckBox{{task.id}}"> Промяна на повтаряемост? </label>
                                                     </div>
 
-                                                    <label for="date_input{{task.id}}" class="col-form-label">First Alert At:</label>
+                                                    <label for="date_input{{task.id}}" class="col-form-label" >Първо Показване:</label>
                                                     <div class="input-group date">
-                                                        <input class="form-control" id="date_input{{task.id}}" name="first_alert_edit" type="date" value="" disabled>
+                                                        <input class="form-control" id="date_input{{task.id}}" name="first_alert_edit" type="date" value=""  disabled>
                                                     </div>
 
-                                                    <label for="date_input{{task.id}}" class="col-form-label">Second Alert At:</label>
-                                                    <div class="input-group date">
-                                                        <input class="form-control" id="date_input2{{task.id}}" name="second_alert_edit" type="date" value="" disabled>
+                                                    <div class="container" style="max-width: 250px; display: inline-block;">
+                                                        <div class="form-group m-1">
+                                                            <label for="recipient-name" class="col-form-label">Показвай на всеки:</label>
+                                                            <input type="number" min="1" name="period" class="form-control" id="recipient-name1">
+                                                        </div>
+                                                    </div>
+                                                                 
+                                
+                                
+                                                    <div class="container" style="max-width: 250px; display: block;">
+                                                        <div class="form-group m-1">
+                                                            <select class="form-control" name="period_type" id="exampleFormControlSelect2">
+                                                            <option>Дена</option>
+                                                            <option>Месеца</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
 
                                                     <div class="form-checks">
                                                         <input class="col-form-label" type="checkbox" value="0" id="Shift{{task.id}}" onclick="s(this)">
-                                                        <label class="col-form-label" for="Shift{{task.id}}"> Change the Shift? </label>
+                                                        <label class="col-form-label" for="Shift{{task.id}}"> Промяна на смяната? </label>
                                                     </div>
 
-                                                    <div class="form-group" style="margin:auto">
-                                                        <label for="exampleFormControlSelect1">Shift</label>
+                                                    <div class="form-group" style="margin:auto; max-width: 150px;">
+                                                        <label for="exampleFormControlSelect1">Смяна: </label>
                                                         <select class="form-control" name="shift" id="shift{{task.id}}" disabled>
                                                             <option></option>
-                                                            <option>First</option>
-                                                            <option>Second</option>
+                                                            <option>Първа</option>
+                                                            <option>Втора</option>
                                                         </select>
                                                     </div>
 
                                                 
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        
-                                                        <button type="submit" class="btn btn-primary">Confirm</button>
-                                                    
-
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+                                                        <button type="submit" class="btn btn-primary">Промяна</button>
                                                     </div>
                                             </form>
                                               </div>
@@ -202,18 +213,12 @@
                                                 <td>{{task.next_alert}}</td>
                                                 <td>{{task.shift}}</td>
                                                 <td>
-                                                <ul class="list m-1" style="display: inline-block; padding: 5px;">
-                                                    <button class="btn btn-success btn-large" data-target="#edit{{task.id}}" data-toggle="modal" type="button" >EDIT</button>
-                                                    <form method="POST" action="{{ url_for('delete', task_id=task.id) }}">
-                                                        <button class="btn btn-danger btn-large" onclick="return confirm('Are you sure you want to delete this post?')">DELETE</button>
-                                                    </form>
-
-
-                                                    
-                                                   
-                                                </ul>
-                                                
-   
+                                                    <ul class="list m-1" style="display: inline-block; padding: 5px;">
+                                                        <button class="btn btn-success btn-large" data-target="#edit{{task.id}}" data-toggle="modal" type="button"> Коригирай </button>
+                                                        <form method="POST" action="{{ url_for('delete', task_id=task.id) }}">
+                                                            <button class="btn btn-danger btn-large" onclick="return confirm('Изтриване на тази дейност?')"> Изтриване </button>
+                                                        </form>                                                  
+                                                    </ul>
                                                 </td>
                                             </tr>
                                         {% endfor %}

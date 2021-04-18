@@ -1,26 +1,29 @@
 {% extends "admin.html" %}
 
+
+{% block h1 %} {% endblock %}
+
 {% block board %}
 <div class="border border-danger p-4" style="margin:auto; width: 40%;">
     <form style="text-align: center;" >
         <div class="form-group w-50" style="margin:auto;">
-            <label for="exampleFormControlSelect1">Done Tasks</label>
+            <label for="exampleFormControlSelect1">Направени дейности: </label>
             <select class="form-control" id="exampleFormControlSelect1">
               <option></option>
-              <option>Yesterday</option>
-              <option>This Week</option>
-              <option>Last Month</option>
+              <option> Вчера </option>
+              <option> Тази седмица </option>
+              <option> Този месец </option>
             </select>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" >
-            <label class="form-check-label" for="defaultCheck1"> Print Here </label>
+            <label class="form-check-label" for="defaultCheck1"> Покажи тук </label>
           </div>
           <form method="post">
               <div>
             <div class="form-check w-25" style="margin:auto;">
                 <input class="form-check-input" type="checkbox" value="1" id="defaultCheck2" onclick="email(this)">
-                <label class="form-check-label" for="defaultCheck2"> Send by email </label>
+                <label class="form-check-label" for="defaultCheck2"> Изпрати на email </label>
                 <select class="form-control" id="email_input" disabled>
                     <option></option>
                     <option>Email@email.com</option>
@@ -28,7 +31,7 @@
                 </select>
             </div>
           </form>
-        <button type="submit" class="btn btn-primary" style="margin-top: 30px;" >Submit</button>
+        <button type="submit" class="btn btn-primary" style="margin-top: 30px;" > Генериране </button>
     </form>
 </div>
 

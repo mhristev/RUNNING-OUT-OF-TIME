@@ -37,9 +37,9 @@ class User(db.Model, UserMixin):
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(75), nullable=False, unique=True)
+    name = db.Column(db.String(75), nullable=False)
     period = db.Column(db.Integer, nullable=False)
-    description = db.Column(db.String(150), unique=True)
+    description = db.Column(db.String(150))
     shift = db.Column(db.String(6), nullable=False)
     next_alert = db.Column(db.DateTime)
     column_id = db.Column(db.Integer, nullable=False)
@@ -54,8 +54,8 @@ class Task(db.Model):
 
 class Temporary_Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(75), nullable=False, unique=True)
-    description = db.Column(db.String(150), unique=True)
+    name = db.Column(db.String(75), nullable=False)
+    description = db.Column(db.String(150))
     date = db.Column(db.DateTime)
     column_id = db.Column(db.Integer, nullable=False)
 

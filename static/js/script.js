@@ -79,11 +79,10 @@ function validateFormEdit(formata) {
     var date1 = document.forms[edit4e][first].value;
     var date2 = document.forms[edit4e][second].value;
 
-	
 
 	if (!document.getElementById(first).disabled) {
 		if (date1 == null || date1 == "", date2 == null || date2 == "") {
-			alert("Please Fill All Required Field");
+			alert("Моля попълнете всички данни!");
 			return false;
 		}
 	}
@@ -101,4 +100,9 @@ function validateFormEdit(formata) {
 	} else{           
 		document.getElementById(shft).disabled = true;  
 	}
+}
+
+
+function validateFormEdit(formata) {
+	console.log(formata);
 }

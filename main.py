@@ -1,7 +1,7 @@
-from time import sleep
+from time import sleep, time
 
 from flask import render_template, request, url_for, redirect, flash
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user
 from dateutil.relativedelta import relativedelta
@@ -12,8 +12,8 @@ from flask_mail import Mail, Message
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'email'
-app.config['MAIL_PASSWORD'] = 'pass'
+app.config['MAIL_USERNAME'] = 'ruski11v@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Ruski5500'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
@@ -21,11 +21,22 @@ mail = Mail(app)
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
-    # msg = Message('Hello', sender=app.config.get("MAIL_USERNAME"), recipients=[''])
-    # msg.body = 'Testing email sending'
-    # mail.send(msg)
-    # sleep(5)
-    # mail.send(msg)
+   # msg = Message('Hello', sender="ruski11v@gmail.com", recipients=['mhristev03@gmail.com'])
+   # msg.body = 'Testing email sending'
+    #mail.send(msg)
+
+
+
+    nowbro = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
+    b = timedelta(days=1)
+    yesterday = nowbro - b 
+    tasks_up=Task.query.filter_by(next_alert=yesterday)
+
+    for t in tasks_up:
+        t.next_alert += timedelta(days=t.period);
+        db.session.commit()
+
+
 
     if request.method == 'POST':
         password = request.form.get('password')
@@ -40,6 +51,7 @@ def home():
             return redirect(url_for('home'))
     else:
         today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
+        #tasks_id1 = Task.query.filter_by(next_alert=today_d)
         return render_template('index.html', tasks=Task.query.filter_by(next_alert=today_d), temp_tasks=Temporary_Task.query.filter_by(date=today_d))
 
 
@@ -69,13 +81,19 @@ def manage():
             period = request.form['period']
             period_type = request.form['period_type']
 
-            if period_type == 'Months':
-                print('In if')
+
+            period = int(period)
+
+            if period_type == 'Месеца':
                 next_alert = start_date + relativedelta(months=+period)
-                print('Here')
                 period = next_alert - start_date
                 period = period.days
+                print(period)
+                print(next_alert)
                 # second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
+            else:
+                next_alert = start_date + timedelta(days=period)
+                print(next_alert)
         else:
             flash("Your task doesn't have some of its alerts!", 'error')
             return redirect(url_for('manage'))
@@ -90,7 +108,6 @@ def manage():
             flash('Your first alert has passed!', 'error')
             return redirect(url_for('manage'))
 
-        print(period)
 
         if name:
             new_task = Task(name, period, des, shift, start_date)
@@ -129,23 +146,34 @@ def edit(my_task_id):
 
         task_name_new = request.form.get('task_name_edit')
         task_bio_new = request.form.get('task_bio_edit')
+        start_date = datetime.strptime(request.form['first_alert_edit'], '%Y-%m-%d').date()
+        period = request.form['period']
+        period_type = request.form['period_type']
+        print(task_name_new)
+        print(start_date)
+        print(period)
+        print(period_type)
+        
 
-        if 'first_alert_edit' in request.form and 'second_alert_edit' in request.form:
-            start_date = datetime.strptime(request.form['first_alert_edit'], '%Y-%m-%d').date()
-            second_date = datetime.strptime(request.form['second_alert_edit'], '%Y-%m-%d').date()
+        period = int(period)
 
-            if second_date < start_date:
-                flash('Your period is negative!', 'error')
-                return redirect(url_for('manage'))
+        if date.today() > start_date:
+            flash("u cant do this")
+        
+        if period_type == 'Месеца':
+                next_alert = start_date + relativedelta(months=+period)
+                period = next_alert - start_date
+                period = period.days
+                print(period)
+                print(next_alert)
+                # second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
+        else:
+            next_alert = start_date + timedelta(days=period)
+            print(next_alert)
 
-            elif start_date < date.today():
-                flash('Your first alert has passed!', 'error')
-                return redirect(url_for('manage'))
 
-            period = second_date - start_date
-            period = period.days
-            task.period = period
-            task.next_alert = start_date
+        task.period = period
+        task.next_alert = start_date
 
         if not task_name_new:
             flash("Your task doesn't have name!", 'error')
@@ -162,6 +190,7 @@ def edit(my_task_id):
         task.description = task_bio_new
 
         db.session.commit()
+
         return redirect(url_for('manage'))
     else:
         return redirect(url_for('manage'))
