@@ -58,35 +58,84 @@ function date(termsCheckBox){
 	p = p.substring(8);
 	//window.document.write(p);
 	date1 = "date_input" + p;
-	date2 = "date_input2" + p;
+	periods = "periods" + p;
+	days_months = "days_months" + p;
 
 	if(termsCheckBox.checked){
 		document.getElementById(date1).disabled = false;
-		document.getElementById(date2).disabled = false;
+		document.getElementById(periods).disabled = false;
+		document.getElementById(days_months).disabled = false;
 	} else{           
-		document.getElementById(date1).disabled = true;    
-		document.getElementById(date2).disabled = true;  
+		document.getElementById(date1).disabled = true;
+		document.getElementById(periods).disabled = true;
+		document.getElementById(days_months).disabled = true;     
 	}
 }
 
-function validateFormEdit(formata) {
-	
-	first = "date_input" + formata;
-	second = "date_input2" + formata;
-
+function checking_fields(formata) {
+	data_id = "date_input" + formata;
 	edit4e = "edit" + formata;
+	period_id = "periods" + formata;
+	shift_id = "shift" + formata;
 
-    var date1 = document.forms[edit4e][first].value;
-    var date2 = document.forms[edit4e][second].value;
+    var date1 = document.forms[edit4e][data_id].value;
+	var period = document.forms[edit4e][period_id].value;
+	var shift = document.forms[edit4e][shift_id].value;
+	//	window.document.write(date1);
+	var name = document.forms[edit4e]["task_name_edit"].value;
+	//var desc = document.forms[edit4e]["task_bio_edit"].value;
+
+	var current = new Date();
+	var wanted_date = new Date(date1);
+
+	if (current > wanted_date) {
+		alert("Тази дата е минала!");
+		return false;
+	}
 
 
-	if (!document.getElementById(first).disabled) {
-		if (date1 == null || date1 == "", date2 == null || date2 == "") {
+
+	if (!document.getElementById(data_id).disabled) {
+		if (date1 == null || date1 == "" || period == null || period == "" ) {
 			alert("Моля попълнете всички данни!");
 			return false;
 		}
 	}
-  }
+
+	if (!document.getElementById(shift_id).disabled) {
+		if (shift == null || shift == "") {
+			alert("Моля попълнете смяна!");
+			return false;
+		}
+	}
+
+	if (name == null || name == "") {
+		alert("Моля попълнете име!");
+		return false;
+	}
+
+
+}
+
+function megaqko(da) {
+	
+	name_id = "task_name";
+	first_date_id = "date_input";
+	periods_id = "per";
+
+	var name2 = document.getElementById("task_name").value;
+	var date2 = document.getElementById(first_date_id).value;
+	var per2 = document.getElementById(periods_id).value;
+
+	if (per2 == null || per2 == "" || date2 == null || date2 == "" || name2 == null || name2 == "") {
+		alert("Моля попълнете всички данни!!");
+		return false;
+	} 
+
+}
+
+
+
 
   // SHIFT
   function s(termsCheckBox) {
@@ -102,7 +151,3 @@ function validateFormEdit(formata) {
 	}
 }
 
-
-function validateFormEdit(formata) {
-	console.log(formata);
-}

@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = "swag"
 login_manager = LoginManager(app)
 
-file_path = os.path.abspath(os.getcwd()) + "/database1.db"
+file_path = os.path.abspath(os.getcwd()) + "/database.db"
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + file_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

@@ -146,27 +146,28 @@ def edit(my_task_id):
 
         task_name_new = request.form.get('task_name_edit')
         task_bio_new = request.form.get('task_bio_edit')
+        
+
+        if request.form.get('first_alert_edit') == None:
+            task.name = task_name_new
+            task.description = task_bio_new
+            db.session.commit()
+            return redirect(url_for('manage'))
+
+        
         start_date = datetime.strptime(request.form['first_alert_edit'], '%Y-%m-%d').date()
         period = request.form['period']
         period_type = request.form['period_type']
-        print(task_name_new)
-        print(start_date)
-        print(period)
-        print(period_type)
-        
+
 
         period = int(period)
 
-        if date.today() > start_date:
-            flash("u cant do this")
-        
         if period_type == 'Месеца':
                 next_alert = start_date + relativedelta(months=+period)
                 period = next_alert - start_date
                 period = period.days
                 print(period)
                 print(next_alert)
-                # second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
         else:
             next_alert = start_date + timedelta(days=period)
             print(next_alert)
@@ -174,13 +175,6 @@ def edit(my_task_id):
 
         task.period = period
         task.next_alert = start_date
-
-        if not task_name_new:
-            flash("Your task doesn't have name!", 'error')
-            return redirect(url_for('manage'))
-        elif not task_bio_new:
-            flash("Your task doesn't have shift!", 'error')
-            return redirect(url_for('manage'))
 
         if request.form.get('shift'):
             task_shift_new = request.form.get('shift')
@@ -193,6 +187,7 @@ def edit(my_task_id):
 
         return redirect(url_for('manage'))
     else:
+        print("bro");
         return redirect(url_for('manage'))
 
 
