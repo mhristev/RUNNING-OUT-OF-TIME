@@ -88,26 +88,10 @@ def manage():
                 next_alert = start_date + relativedelta(months=+period)
                 period = next_alert - start_date
                 period = period.days
-                print(period)
-                print(next_alert)
                 # second_date = datetime.strptime(request.form['second_a'], '%Y-%m-%d').date()
             else:
                 next_alert = start_date + timedelta(days=period)
-                print(next_alert)
-        else:
-            flash("Your task doesn't have some of its alerts!", 'error')
-            return redirect(url_for('manage'))
-
-        if not name:
-            flash("Your task doesn't have name!", 'error')
-            return redirect(url_for('manage'))
-        elif not shift:
-            flash("Your task doesn't have shift!", 'error')
-            return redirect(url_for('manage'))
-        elif start_date < date.today():
-            flash('Your first alert has passed!', 'error')
-            return redirect(url_for('manage'))
-
+                
 
         if name:
             new_task = Task(name, period, des, shift, start_date)
