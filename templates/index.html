@@ -118,7 +118,12 @@
 							</div>
 							<div id='asd' class="barbie">
 								<label for="fname">Име: </label>
-								<input type="text" id="fname" name="fname" tabindex="-1">
+								{% if temporary_task1.person_name %}
+									<input type="text" id="fname" name="fname" tabindex="-1" value="{{temporary_task1.person_name}}">
+								{% else %}
+									<input type="text" id="fname" name="fname" tabindex="-1">
+								{% endif %}
+
 							</div>
 						</li>
 				{% endfor %}
@@ -194,7 +199,12 @@
 						-->
 						<div id='asd' class="barbie">
 							<label for="fname">Име: </label>
-							<input type="text" id="fname" name="fname" tabindex="-1">
+
+							{% if task1.person_name %}
+								<input type="text" id="fname" name="fname" tabindex="-1" value="{{task1.person_name}}">
+							{% else %}
+								<input type="text" id="fname" name="fname" tabindex="-1">
+							{% endif %}
 						</div>
 
 						</li>
@@ -243,7 +253,14 @@
 							</div>
 							<div id='asd' class="barbie">
 								<label for="fname">Име: </label>
-								<input type="text" id="fname" name="fname" tabindex="-1" disabled>
+
+
+								{% if temporary_task2.person_name %}
+									<input type="text" id="fname" name="fname" tabindex="-1" value="{{temporary_task2.person_name}}" disabled>
+								{% else %}
+									<input type="text" id="fname" name="fname" tabindex="-1" disabled>
+								{% endif %}
+
 							</div>
 						</li>
 				{% endfor %}
@@ -318,7 +335,13 @@
 						-->
 						<div id='asd' class="barbie">
 							<label for="fname">Име: </label>
-							<input type="text" id="fname" name="fname"  tabindex="-1" disabled>
+
+							{% if task2.person_name %}
+								<input type="text" id="fname" name="fname"  tabindex="-1" value="{{task2.person_name}}" disabled>
+							{% else %}
+								<input type="text" id="fname" name="fname" tabindex="-1" disabled>
+							{% endif %}
+
 						</div>
 
 
@@ -370,7 +393,13 @@
 							</div>
 							<div id='asd' class="barbie">
 								<label for="fname">Име: </label>
-								<input type="text" id="fname" name="fname" tabindex="-1" disabled>
+
+								{% if temporary_task3.person_name %}
+									<input type="text" id="fname" name="fname" tabindex="-1" value="{{temporary_task3.person_name}}" disabled>
+								{% else %}
+									<input type="text" id="fname" name="fname" tabindex="-1" disabled>
+								{% endif %}
+
 							</div>
 						</li>
 				{% endfor %}
@@ -445,7 +474,13 @@
 						-->
 						<div id='asd' class="barbie">
 							<label for="fname">Име: </label>
-							<input type="text" id="fname" name="fname" tabindex="-1" disabled>
+
+							{% if task3.person_name %}
+								<input type="text" id="fname" name="fname" tabindex="-1" value="{{task3.person_name}}" disabled>
+							{% else %}
+								<input type="text" id="fname" name="fname" tabindex="-1" disabled>
+							{% endif %}
+
 						</div>
 
 
