@@ -178,7 +178,7 @@ ul {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 160px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
+  z-index: 0; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
   background-color: #111; /* Black */
@@ -210,4 +210,15 @@ ul {
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+}
+
+.barbie input {
+  width: 40%;
+  background-color: #E0E0E0;
+  
+}
+
+.barbie {
+  margin-top: 130px;
+  margin-left: 15px;
 }

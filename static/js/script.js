@@ -9,11 +9,23 @@ dragula([
 	// add 'is-moving' class to element being dragged
 	//window.document.write($(el).parents('ul').first().attr('id'))
 	el.classList.add('is-moving');
+	
 })
 .on('dragend', function(el) {
 
     var p = $(el).parents('ul').first().attr('id');
-
+	console.log(p);
+	
+	if (p == 2 || p == 3) {
+		$(el).find('input').prop('disabled', true);
+		console.log(1);
+		console.log($(el).find('input').value);
+	} else {
+		$(el).find('input').prop('disabled', false);
+		console.log(2);
+		console.log($(el).find('input').value);
+	}
+	
 
     var normalTask = 1;
     var k = $(el).attr('id');
@@ -67,10 +79,12 @@ dragula([
 	//window.document.write(p);
 });
 
+var containers = $('#asd').toArray();
+            dragula(containers);
 
-createOptions.create();
-showOptions.init();
-
+$( "div input " ).click(function() {
+    $(this).focus();
+});
 
 
 // SELECT MAIL
