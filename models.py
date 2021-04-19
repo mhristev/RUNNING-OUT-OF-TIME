@@ -53,18 +53,20 @@ class Task(db.Model):
         self.next_alert = next_alert
         self.column_id = 1
 
+
 class TemporaryTask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(75), nullable=False)
     description = db.Column(db.String(150))
     date = db.Column(db.DateTime)
     column_id = db.Column(db.Integer, nullable=False)
+    person_name = db.Column(db.String(75), nullable=True)
 
-    def __init__(self, name, description, date):
+    def __init__(self, name):
         self.name = name
-        self.description = description
-        self.date = date
+        self.date = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
         self.column_id = 1
+
 
 class DoneTask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -75,6 +77,16 @@ class DoneTask(db.Model):
     def __init__(self, person_name, task_name):
         self.done_date = datetime.datetime.today().replace(microsecond=0, hour=0, second=0, minute=0) - datetime.timedelta(days=1)
         self.person_name = person_name
+        self.task_name = task_name
+
+
+class MissedTask(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    missed_date = db.Column(db.DateTime(timezone=True))
+    task_name = db.Column(db.String(75), nullable=False)
+
+    def __init__(self, task_name):
+        self.missed_date = datetime.datetime.today().replace(microsecond=0, hour=0, second=0, minute=0) - datetime.timedelta(days=1)
         self.task_name = task_name
 
 

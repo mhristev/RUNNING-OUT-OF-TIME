@@ -14,21 +14,18 @@ dragula([
 .on('dragend', function(el) {
 
     var p = $(el).parents('ul').first().attr('id');
-	console.log(p);
-	
+
 	if (p == 2 || p == 3) {
 		$(el).find('input').prop('disabled', true);
-		console.log(1);
-		console.log($(el).find('input').value);
 	} else {
 		$(el).find('input').prop('disabled', false);
-		console.log(2);
-		console.log($(el).find('input').value);
 	}
 
 
     var normalTask = 1;
     var k = $(el).attr('id');
+
+    var person_name = $("#" + k + " :input")[2].value;
 
     if(k[0] == "t"){
         normalTask = 0;
@@ -40,11 +37,12 @@ dragula([
 
     if(p == 3 && normalTask == 1){
         // Call flask function which will remove the task
-        $.post("/movedtask3", {javascript_data: k});
+
+        $.post("/movedtask3", {javascript_data: k, personName: person_name});
 
     } else if(p == 2 && normalTask == 1){
 
-        $.post("/movedtask2", {javascript_data: k});
+        $.post("/movedtask2", {javascript_data: k, personName: person_name});
 
     } else if(p == 1 && normalTask == 1){
 
@@ -52,11 +50,11 @@ dragula([
 
     } else if(p == 3 && normalTask == 0){
 
-        $.post("/movedtemptask3", {javascript_data: k});
+        $.post("/movedtemptask3", {javascript_data: k, personName: person_name});
 
     } else if(p == 2 && normalTask == 0){
 
-        $.post("/movedtemptask2", {javascript_data: k});
+        $.post("/movedtemptask2", {javascript_data: k, personName: person_name});
 
     } else if(p == 1 && normalTask == 0){
 
