@@ -50,7 +50,7 @@
 				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document" >
 
-					<form method="POST" action="{{ url_for('add_temp_task') }}" name="add_temp_task">
+					<form method="POST" action="{{ url_for('add_temp_task') }}" name="add_temp_task" onsubmit="return temp_check(1)">
 
 						<div class="modal-content" style="background-color: #33363D;">
 						<div class="modal-header">

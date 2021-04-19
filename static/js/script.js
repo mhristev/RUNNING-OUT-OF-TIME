@@ -25,7 +25,7 @@ dragula([
 		console.log(2);
 		console.log($(el).find('input').value);
 	}
-	
+
 
     var normalTask = 1;
     var k = $(el).attr('id');
@@ -182,7 +182,7 @@ function megaqko(da) {
 
 
   // SHIFT
-  function s(termsCheckBox) {
+function s(termsCheckBox) {
 	var p = $(termsCheckBox).attr('id');
 	p = p.substring(5);
 	
@@ -193,5 +193,19 @@ function megaqko(da) {
 	} else{           
 		document.getElementById(shft).disabled = true;  
 	}
+}
+
+
+function temp_check(sipsip) {
+	
+	var deinost = document.getElementById("temporary_task_name").value;
+	//var descr = document.getElementById("temporary_task_des").value;
+
+	if (deinost == null || deinost == "") {
+		alert("Моля попълнете дейност!");
+		return false;
+	}
+
+
 }
 

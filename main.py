@@ -136,8 +136,6 @@ def add_temp_task():
             db.session.add(new_task)
             db.session.commit()
 
-        else:
-            flash('Temporary task invalid!', 'error')
 
     if current_user.is_authenticated:
         return redirect(url_for('admin'))
