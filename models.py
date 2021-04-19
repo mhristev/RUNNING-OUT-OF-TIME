@@ -52,7 +52,7 @@ class Task(db.Model):
         self.next_alert = next_alert
         self.column_id = 1
 
-class Temporary_Task(db.Model):
+class TemporaryTask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(75), nullable=False)
     description = db.Column(db.String(150))
@@ -65,7 +65,7 @@ class Temporary_Task(db.Model):
         self.date = date
         self.column_id = 1
 
-class Done_Task(db.Model):
+class DoneTask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     done_date = db.Column(db.DateTime(timezone=True))
     person_name = db.Column(db.String(150), nullable=False)

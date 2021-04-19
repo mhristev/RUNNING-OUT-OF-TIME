@@ -3,10 +3,10 @@ from time import sleep, time
 from flask import render_template, request, url_for, redirect, flash
 from datetime import date, datetime, timedelta
 from werkzeug.security import check_password_hash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from dateutil.relativedelta import relativedelta
 
-from models import User, Task, db, Done_Task, app, Temporary_Task
+from models import User, Task, db, DoneTask, app, TemporaryTask
 
 from flask_mail import Mail, Message
 
@@ -52,14 +52,32 @@ def home():
     else:
         today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
         #tasks_id1 = Task.query.filter_by(next_alert=today_d)
-        return render_template('index.html', tasks=Task.query.filter_by(next_alert=today_d), temp_tasks=Temporary_Task.query.filter_by(date=today_d))
+        tasks_id1 = Task.query.filter_by(next_alert=today_d, column_id=1)
+        tasks_id2 = Task.query.filter_by(next_alert=today_d, column_id=2)
+        tasks_id3 = Task.query.filter_by(next_alert=today_d, column_id=3)
+
+        temp_tasks_id1 = TemporaryTask.query.filter_by(date=today_d, column_id=1)
+        temp_tasks_id2 = TemporaryTask.query.filter_by(date=today_d, column_id=2)
+        temp_tasks_id3 = TemporaryTask.query.filter_by(date=today_d, column_id=3)
+
+        return render_template('index.html', tasks1=tasks_id1, tasks2=tasks_id2, tasks3=tasks_id3, temp_tasks1=temp_tasks_id1, temp_tasks2=temp_tasks_id2, temp_tasks3=temp_tasks_id3)
 
 
 @app.route('/admin')
 @login_required
 def admin():
     today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
-    return render_template("admin.html", tasks=Task.query.filter_by(next_alert=today_d), temp_tasks=Temporary_Task.query.filter_by(date=today_d))
+
+    tasks_id1 = Task.query.filter_by(next_alert=today_d, column_id=1)
+    tasks_id2 = Task.query.filter_by(next_alert=today_d, column_id=2)
+    tasks_id3 = Task.query.filter_by(next_alert=today_d, column_id=3)
+
+    temp_tasks_id1 = TemporaryTask.query.filter_by(date=today_d, column_id=1)
+    temp_tasks_id2 = TemporaryTask.query.filter_by(date=today_d, column_id=2)
+    temp_tasks_id3 = TemporaryTask.query.filter_by(date=today_d, column_id=3)
+
+    return render_template('admin.html', tasks1=tasks_id1, tasks2=tasks_id2, tasks3=tasks_id3,
+                           temp_tasks1=temp_tasks_id1, temp_tasks2=temp_tasks_id2, temp_tasks3=temp_tasks_id3)
 
 
 @app.route('/select', methods=['POST', 'GET'])
@@ -107,19 +125,24 @@ def manage():
 @app.route('/add_temp', methods=['POST', 'GET'])
 def add_temp_task():
     if request.method == 'POST':
-        if request.form.get('temporary_task_name') and request.form.get('temporary_task_des'):
+        if request.form.get('temporary_task_name'):
             temp_task_name = request.form.get('temporary_task_name')
-            temp_task_des = request.form.get('temporary_task_des')
 
-            new_task = Temporary_Task(temp_task_name, temp_task_des, date.today())
+            if request.form.get('temporary_task_des'):
+                temp_task_des = request.form.get('temporary_task_des')
+                new_task = TemporaryTask(temp_task_name, temp_task_des, date.today())
+            else:
+                new_task = TemporaryTask(temp_task_name, date.today())
             db.session.add(new_task)
             db.session.commit()
 
         else:
             flash('Temporary task invalid!', 'error')
-            return redirect(url_for('home'))
 
-    return redirect(url_for('home'))
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
+    else:
+        return redirect(url_for('home'))
 
 
 @app.route('/edit/<my_task_id>', methods=['POST', 'GET'])
@@ -192,7 +215,7 @@ def send(task_id):
     if request.method == 'POST':
         task = Task.query.filter_by(id=task_id).first()
         person_name = request.form.get('person_name')
-        done_task = Done_Task(person_name, task.name)
+        done_task = DoneTask(person_name, task.name)
 
         db.session.add(done_task)
         db.session.commit()
@@ -207,6 +230,92 @@ def send(task_id):
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
+@app.route('/movedtask3', methods=['POST'])
+def task_column3():
+
+    task_id = request.form['javascript_data']
+
+    print('In moved 3' + task_id)
+
+    task = Task.query.filter_by(id=task_id).first()
+    task.column_id = 3
+    db.session.commit()
+
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/movedtask2', methods=['POST'])
+def task_column2():
+    task_id = request.form['javascript_data']
+    task = Task.query.filter_by(id=task_id).first()
+    task.column_id = 2
+    db.session.commit()
+
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/movedtask1', methods=['POST'])
+def task_column1():
+    task_id = request.form['javascript_data']
+    task = Task.query.filter_by(id=task_id).first()
+    task.column_id = 1
+    db.session.commit()
+
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
+    else:
+        return redirect(url_for('home'))
+
+
+'''@app.route('/movedtemptask3', methods=['POST'])
+def tasktemp_column3():
+    task_id = request.form['javascript_data']
+
+    print('Task_id: ' + task_id)
+
+    task = TemporaryTask.query.filter_by(id=task_id).first()
+    task.column_id = 3
+    db.session.commit()
+
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/movedtemptask2', methods=['POST'])
+def tasktemp_column2():
+    task_id = request.form['javascript_data']
+    task = TemporaryTask.query.filter_by(id=task_id).first()
+    task.column_id = 2
+    db.session.commit()
+
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/movedtemptask1', methods=['POST'])
+def tasktemp_column1():
+    task_id = request.form['javascript_data']
+    task = TemporaryTask.query.filter_by(id=task_id).first()
+    task.column_id = 1
+    db.session.commit()
+
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
+    else:
+        return redirect(url_for('home'))'''
+
 
 
 if __name__ == '__main__':

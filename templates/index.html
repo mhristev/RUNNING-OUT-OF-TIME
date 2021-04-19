@@ -84,18 +84,19 @@
 			<div class="drag-options" id="options1"></div>
 			
 			<ul class="drag-inner-list" id="1">
-				{% for temporary_task in temp_tasks %}
-						<li class="drag-item" id="id{{temporary_task.id}}">
+
+				{% for temporary_task1 in temp_tasks1 %}
+						<li class="drag-item" id="tempid{{temporary_task1.id}}">
 							<div class="text-left" style="margin: auto;float: left;">
-								<a type="button" class="btn" data-toggle="modal" data-target="#description{{temporary_task.id}}" data-whatever="@getbootstrap">
+								<a type="button" class="btn" data-toggle="modal" data-target="#description{{temporary_task1.id}}" data-whatever="@getbootstrap">
 									<i class="fas fa-question-circle"></i>
 								</a>
 							</div>
-							<h>{{temporary_task.name}}</h>
+							<h>{{temporary_task1.name}}</h>
 
 
 							<!-- Modal -->
-							<div class="modal fade" id="description{{temporary_task.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal fade" id="description{{temporary_task1.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -106,7 +107,7 @@
 									</div>
 									<div class="modal-body">
 										<ul style="color: black;">
-											<li>{{temporary_task.description}}</li>
+											<li>{{temporary_task1.description}}</li>
 										</ul>
 									</div>
 									<div class="modal-footer">
@@ -119,29 +120,30 @@
 						</li>
 				{% endfor %}
 
-				{% for task in tasks %}
-						<li class="drag-item" id="id{{task.id}}">
+				{% for task1 in tasks1 %}
+
+						<li class="drag-item" id="id{{task1.id}}">
 							<div class="text-left" style="margin: auto;float: left;">
-								<a type="button" class="btn" data-toggle="modal" data-target="#description{{task.id}}" data-whatever="@getbootstrap">
+								<a type="button" class="btn" data-toggle="modal" data-target="#description{{task1.id}}" data-whatever="@getbootstrap">
 									<i class="fas fa-question-circle"></i>
 								</a>
 							</div>
-							<h>{{task.name}}</h>
+							<h>{{task1.name}}</h>
 
 
 							<!-- Modal -->
-							<div class="modal fade" id="description{{task.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal fade" id="description{{task1.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLongTitle" style="color:black">Описание:</h5>
+									<h5 class="modal-title" id="exampleModalLongTitle2" style="color:black">Описание:</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
 									</div>
 									<div class="modal-body">
 										<ul style="color: black;">
-											<li>{{task.description}}</li>
+											<li>{{task1.description}}</li>
 										</ul>
 									</div>
 									<div class="modal-footer">
@@ -153,7 +155,7 @@
 
 
 
-							<!--<button type="button" id="my-button{{task.id}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenters"  style="float:right; margin-top: 80px; margin-right: 10px;">
+							<!--<button type="button" id="my-button{{task1.id}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenters"  style="float:right; margin-top: 80px; margin-right: 10px;">
 								Send
 							</button>
 							
@@ -184,11 +186,11 @@
 						
 
 							<div class="text-right" style=" margin: auto; float: right; bottom: 10%; right:4%">
-								<h>Смяна: {{ task.shift}}</h>
+								<h>Смяна: {{ task1.shift}}</h>
 							</div>
 						-->
 						<label for="fname">Име: </label>
-						<input type="text" id="fname" name="fname" style="clear: both; position: relative;" tabindex="-1">
+						<input type="text" id="fname2" name="fname" style="clear: both; position: relative;" tabindex="-1">
 
 
 						</li>
@@ -204,6 +206,117 @@
 			</span>
 			<div class="drag-options" id="options2"></div>
 			<ul class="drag-inner-list" id="2">
+				{% for temporary_task2 in temp_tasks2 %}
+						<li class="drag-item" id="tempid{{temporary_task2.id}}">
+							<div class="text-left" style="margin: auto;float: left;">
+								<a type="button" class="btn" data-toggle="modal" data-target="#description{{temporary_task2.id}}" data-whatever="@getbootstrap">
+									<i class="fas fa-question-circle"></i>
+								</a>
+							</div>
+							<h>{{temporary_task2.name}}</h>
+
+
+							<!-- Modal -->
+							<div class="modal fade" id="description{{temporary_task2.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle3" style="color:black">Описание</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									</div>
+									<div class="modal-body">
+										<ul style="color: black;">
+											<li>{{temporary_task2.description}}</li>
+										</ul>
+									</div>
+									<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+									</div>
+								</div>
+								</div>
+							</div>
+
+						</li>
+				{% endfor %}
+
+				{% for task2 in tasks2 %}
+						<li class="drag-item" id="id{{task2.id}}">
+							<div class="text-left" style="margin: auto;float: left;">
+								<a type="button" class="btn" data-toggle="modal" data-target="#description{{task2.id}}" data-whatever="@getbootstrap">
+									<i class="fas fa-question-circle"></i>
+								</a>
+							</div>
+							<h>{{task2.name}}</h>
+
+
+							<!-- Modal -->
+							<div class="modal fade" id="description{{task2.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle4" style="color:black">Описание:</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									</div>
+									<div class="modal-body">
+										<ul style="color: black;">
+											<li>{{task2.description}}</li>
+										</ul>
+									</div>
+									<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+									</div>
+								</div>
+								</div>
+							</div>
+
+
+
+							<!--<button type="button" id="my-button{{task2.id}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenters"  style="float:right; margin-top: 80px; margin-right: 10px;">
+								Send
+							</button>
+
+							<div class="modal fade" id="exampleModalCenters" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitles" aria-hidden="true" style="z-index: 999999999999;">
+								<div class="modal-dialog modal-dialog-centered" role="document" >
+								<div class="modal-content" >
+									<div class="modal-header" >
+									<h5 class="modal-title" id="exampleModalLongTitles" style="color:black">Done by</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									</div>
+									<div class="modal-body">
+										<div class="form-group" style="color: black;">
+											<label for="message-text" class="col-form-label">Name</label>
+											<input class="form-control" type="text" id="message-text" ></input>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Send</button>
+									</div>
+								</div>
+								</div>
+							</div>
+
+
+
+
+
+							<div class="text-right" style=" margin: auto; float: right; bottom: 10%; right:4%">
+								<h>Смяна: {{ task2.shift}}</h>
+							</div>
+						-->
+						<label for="fname">Име: </label>
+						<input type="text" id="fname" name="fname" style="clear: both; position: relative;" tabindex="-1">
+
+
+						</li>
+				{% endfor %}
+
+
 			</ul>
 		</li>
 		
@@ -215,6 +328,116 @@
 			</span>
 			<div class="drag-options" id="options4"></div>
 			<ul class="drag-inner-list" id="3">
+				{% for temporary_task3 in temp_tasks3 %}
+						<li class="drag-item" id="tempid{{temporary_task3.id}}">
+							<div class="text-left" style="margin: auto;float: left;">
+								<a type="button" class="btn" data-toggle="modal" data-target="#description{{temporary_task3.id}}" data-whatever="@getbootstrap">
+									<i class="fas fa-question-circle"></i>
+								</a>
+							</div>
+							<h>{{temporary_task3.name}}</h>
+
+
+							<!-- Modal -->
+							<div class="modal fade" id="description{{temporary_task3.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle5" style="color:black">Описание</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									</div>
+									<div class="modal-body">
+										<ul style="color: black;">
+											<li>{{temporary_task3.description}}</li>
+										</ul>
+									</div>
+									<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+									</div>
+								</div>
+								</div>
+							</div>
+
+						</li>
+				{% endfor %}
+
+				{% for task3 in tasks3 %}
+						<li class="drag-item" id="id{{task3.id}}">
+							<div class="text-left" style="margin: auto;float: left;">
+								<a type="button" class="btn" data-toggle="modal" data-target="#description{{task3.id}}" data-whatever="@getbootstrap">
+									<i class="fas fa-question-circle"></i>
+								</a>
+							</div>
+							<h>{{task3.name}}</h>
+
+
+							<!-- Modal -->
+							<div class="modal fade" id="description{{task3.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle" style="color:black">Описание:</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									</div>
+									<div class="modal-body">
+										<ul style="color: black;">
+											<li>{{task3.description}}</li>
+										</ul>
+									</div>
+									<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Затвори</button>
+									</div>
+								</div>
+								</div>
+							</div>
+
+
+
+							<!--<button type="button" id="my-button{{task3.id}}" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenters"  style="float:right; margin-top: 80px; margin-right: 10px;">
+								Send
+							</button>
+
+							<div class="modal fade" id="exampleModalCenters" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitles" aria-hidden="true" style="z-index: 999999999999;">
+								<div class="modal-dialog modal-dialog-centered" role="document" >
+								<div class="modal-content" >
+									<div class="modal-header" >
+									<h5 class="modal-title" id="exampleModalLongTitles" style="color:black">Done by</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									</div>
+									<div class="modal-body">
+										<div class="form-group" style="color: black;">
+											<label for="message-text" class="col-form-label">Name</label>
+											<input class="form-control" type="text" id="message-text" ></input>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Send</button>
+									</div>
+								</div>
+								</div>
+							</div>
+
+
+
+
+
+							<div class="text-right" style=" margin: auto; float: right; bottom: 10%; right:4%">
+								<h>Смяна: {{ task3.shift}}</h>
+							</div>
+						-->
+						<label for="fname">Име: </label>
+						<input type="text" id="fname3" name="fname" style="clear: both; position: relative;" tabindex="-1">
+
+
+						</li>
+				{% endfor %}
+
 			</ul>
 		</li>
 	</ul>

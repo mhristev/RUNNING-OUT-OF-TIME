@@ -14,13 +14,48 @@ dragula([
 
     var p = $(el).parents('ul').first().attr('id');
 
+
+    var normalTask = 1;
     var k = $(el).attr('id');
-	k = k.substring(2);
 
-    if(p == 3){
+    /*if(k[0] == 't'){
+        window.document.write("In")
+        console.log(k + " if");
+        normalTask = false;
+        k = k.substring(6);
+    } else(){
+        window.document.write("Else")
+        console.log(k + " else");
+        normalTask = true;
+        k = k.substring(2);
+    }*/
+    k = k.substring(2);
+
+    if(p == 3 && normalTask == 1){
         // Call flask function which will remove the task
+        $.post("/movedtask3", {javascript_data: k});
 
-    }
+    } else if(p == 2 && normalTask == 1){
+
+        $.post("/movedtask2", {javascript_data: k});
+
+    } else if(p == 1 && normalTask == 1){
+
+        $.post("/movedtask1", {javascript_data: k});
+
+    } /*else if(p == 3 && normalTask == 0){
+
+        $.post("/movedtemptask3", {javascript_data: k});
+
+    } else if(p == 2 && normalTask == 0){
+
+        $.post("/movedtemptask2", {javascript_data: k});
+
+    } else if(p == 1 && normalTask == 0){
+
+        $.post("/movedtemptask1", {javascript_data: k});
+
+    }*/
 
 	// after dragging has stopped
 	el.classList.remove('is-moving');
