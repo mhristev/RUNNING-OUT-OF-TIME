@@ -275,7 +275,7 @@ def task_column1():
         return redirect(url_for('home'))
 
 
-'''@app.route('/movedtemptask3', methods=['POST'])
+@app.route('/movedtemptask3', methods=['POST'])
 def tasktemp_column3():
     task_id = request.form['javascript_data']
 
@@ -314,7 +314,7 @@ def tasktemp_column1():
     if current_user.is_authenticated:
         return redirect(url_for('admin'))
     else:
-        return redirect(url_for('home'))'''
+        return redirect(url_for('home'))
 
 
 
