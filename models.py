@@ -43,6 +43,7 @@ class Task(db.Model):
     shift = db.Column(db.String(6), nullable=False)
     next_alert = db.Column(db.DateTime)
     column_id = db.Column(db.Integer, nullable=False)
+    person_name = db.Column(db.String(75), nullable=True)
 
     def __init__(self, name, period, description, shift, next_alert):
         self.name = name
@@ -71,9 +72,9 @@ class DoneTask(db.Model):
     person_name = db.Column(db.String(150), nullable=False)
     task_name = db.Column(db.String(75), nullable=False)
 
-    def __init__(self, person_date, task_name):
-        self.done_date = datetime.datetime.today().replace(microsecond=0)
-        self.person_name = person_date
+    def __init__(self, person_name, task_name):
+        self.done_date = datetime.datetime.today().replace(microsecond=0, hour=0, second=0, minute=0) - datetime.timedelta(days=1)
+        self.person_name = person_name
         self.task_name = task_name
 
 

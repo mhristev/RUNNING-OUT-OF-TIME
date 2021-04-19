@@ -31,6 +31,9 @@ def home():
     b = timedelta(days=1)
     yesterday = nowbro - b 
     tasks_up=Task.query.filter_by(next_alert=yesterday)
+    #for s in tasks_up:
+     #   if s.column_id == 3:
+        
 
     for t in tasks_up:
         t.next_alert += timedelta(days=t.period);
