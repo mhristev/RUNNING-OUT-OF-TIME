@@ -44,14 +44,17 @@ def send_mail_monthly():
     mail_get = MailDate.query.filter_by(id=1).first()
 
     print(mail.next_date)
-    if mail_get.next_date == datetime.now().replace(microsecond=0, hour=0, second=0, minute=0):
-        mail_get.next_date +=  relativedelta(months=1)
+    print((mail_get.next_date).month)
+    print((datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)).month)
+
+    if (mail_get.next_date).month == (datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)).month:
+        mail_get.next_date += relativedelta(months=1)
         db.session.commit()
         msg = Message('Ненаправени дейности', sender="ruski11v@gmail.com", recipients=['mhristev03@gmail.com'])
         msg_body = ''
         print("in sending")
         a_month = relativedelta(months=1)
-
+        # a_day = relativedelta(days=(datetime.today()).day - ((datetime.today()).day + 1))
         missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= (datetime.today() - a_month))
         for task in missed_tasks:
             msg_body += 'Име: ' + task.task_name + "; Ден: " + str((task.missed_date).date()) + '\n'
@@ -74,12 +77,27 @@ def update_db():
     temp_tasks = TemporaryTask.query.filter(TemporaryTask.date < nowbro)
     for tasko in temp_tasks:
         if tasko.column_id == 3:
-            done_tasko = DoneTask(tasko.person_name, tasko.name, tasko.date)
-            db.session.add(done_tasko)
+            flag = 0
+            for my_task in DoneTask.query.all():
+                if my_task.id_for_temp == tasko.id:
+                    flag = 1
+
+            if flag == 0:
+                done_tasko = DoneTask(tasko.person_name, tasko.name, tasko.date)
+                done_tasko.id_for_temp = tasko.id
+                db.session.add(done_tasko)
+
         elif tasko.column_id == 2 or tasko.column_id == 1:
-            missed_tasko = MissedTask(tasko.name, tasko.date)
-            db.session.add(missed_tasko)
-        
+            flag = 0
+            for my_task in MissedTask.query.all():
+                if my_task.id_for_temp == tasko.id:
+                    flag = 1
+
+            if flag == 0:
+                missed_tasko = MissedTask(tasko.name, tasko.date)
+                missed_tasko.id_for_temp = tasko.id
+                db.session.add(missed_tasko)
+
         db.session.commit()
 
     for task in tasks_up:
@@ -97,7 +115,7 @@ def update_db():
     for task in tasks_up:
         while task.next_alert < datetime.now().replace(microsecond=0, hour=0, second=0, minute=0):
             task.next_alert += timedelta(days=task.period);
-        
+
         task.column_id = 1;
         task.person_name = None;
         db.session.commit()

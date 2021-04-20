@@ -70,6 +70,7 @@ class TemporaryTask(db.Model):
 
 class DoneTask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    id_for_temp = db.Column(db.Integer, nullable=True)
     done_date = db.Column(db.DateTime(timezone=True))
     person_name = db.Column(db.String(150), nullable=False)
     task_name = db.Column(db.String(75), nullable=True)
@@ -82,6 +83,7 @@ class DoneTask(db.Model):
 
 class MissedTask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    id_for_temp = db.Column(db.Integer, nullable=True)
     missed_date = db.Column(db.DateTime(timezone=True))
     task_name = db.Column(db.String(75), nullable=True)
 
