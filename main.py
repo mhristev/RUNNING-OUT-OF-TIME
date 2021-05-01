@@ -71,7 +71,7 @@ def update_db():
 
     nowbro = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
     tasks_up = Task.query.filter(Task.next_alert < nowbro)
-    temp_tasks = TemporaryTask.query.all()
+    temp_tasks = TemporaryTask.query.filter(TemporaryTask.date < nowbro)
     for tasko in temp_tasks:
         if tasko.column_id == 3:
             done_tasko = DoneTask(tasko.person_name, tasko.name, tasko.date)

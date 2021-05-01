@@ -107,7 +107,11 @@
 									</div>
 									<div class="modal-body">
 										<ul style="color: black;">
-											<li>{{temporary_task1.description}}</li>
+											{% if temporary_task1.description %}
+												<li>{{temporary_task1.description}}</li>
+											{% else %}
+												<li></li>
+											{% endif %}
 										</ul>
 									</div>
 									<div class="modal-footer">
@@ -151,7 +155,11 @@
 									</div>
 									<div class="modal-body">
 										<ul style="color: black;">
-											<li>{{task1.description}}</li>
+											{% if task1.description %}
+												<li>{{task1.description}}</li>
+											{% else %}
+												<li></li>
+											{% endif %}
 										</ul>
 									</div>
 									<div class="modal-footer">
@@ -242,7 +250,11 @@
 									</div>
 									<div class="modal-body">
 										<ul style="color: black;">
-											<li>{{temporary_task2.description}}</li>
+											{% if temporary_task2.description %}
+												<li>{{temporary_task2.description}}</li>
+											{% else %}
+												<li></li>
+											{% endif %}
 										</ul>
 									</div>
 									<div class="modal-footer">
@@ -287,7 +299,11 @@
 									</div>
 									<div class="modal-body">
 										<ul style="color: black;">
-											<li>{{task2.description}}</li>
+											{% if task2.description %}
+												<li>{{task2.description}}</li>
+											{% else %}
+												<li></li>
+											{% endif %}
 										</ul>
 									</div>
 									<div class="modal-footer">
@@ -382,7 +398,11 @@
 									</div>
 									<div class="modal-body">
 										<ul style="color: black;">
-											<li>{{temporary_task3.description}}</li>
+											{% if temporary_task3.description %}
+												<li>{{temporary_task3.description}}</li>
+											{% else %}
+												<li></li>
+											{% endif %}
 										</ul>
 									</div>
 									<div class="modal-footer">
@@ -426,7 +446,11 @@
 									</div>
 									<div class="modal-body">
 										<ul style="color: black;">
-											<li>{{task3.description}}</li>
+											{% if task3.description %}
+												<li>{{task3.description}}</li>
+											{% else %}
+												<li></li>
+											{% endif %}
 										</ul>
 									</div>
 									<div class="modal-footer">
