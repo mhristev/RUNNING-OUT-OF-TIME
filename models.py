@@ -72,10 +72,10 @@ class DoneTask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     done_date = db.Column(db.DateTime(timezone=True))
     person_name = db.Column(db.String(150), nullable=False)
-    task_name = db.Column(db.String(75), nullable=False)
+    task_name = db.Column(db.String(75), nullable=True)
 
-    def __init__(self, person_name, task_name):
-        self.done_date = datetime.datetime.today().replace(microsecond=0, hour=0, second=0, minute=0) - datetime.timedelta(days=1)
+    def __init__(self, person_name, task_name, task_date):
+        self.done_date = task_date
         self.person_name = person_name
         self.task_name = task_name
 
@@ -83,19 +83,22 @@ class DoneTask(db.Model):
 class MissedTask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     missed_date = db.Column(db.DateTime(timezone=True))
-    task_name = db.Column(db.String(75), nullable=False)
+    task_name = db.Column(db.String(75), nullable=True)
 
-    def __init__(self, task_name):
-        self.missed_date = datetime.datetime.today().replace(microsecond=0, hour=0, second=0, minute=0) - datetime.timedelta(days=1)
+    def __init__(self, task_name, task_date):
+        self.missed_date = task_date
         self.task_name = task_name
 
 
+
+class MailDate(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    next_date = db.Column(db.DateTime(timezone=True))
+
+    def __init__(self, date):
+        self.next_date = date
+
 db.create_all()
-
-main_admin = User('admin')
-db.session.add(main_admin)
-db.session.commit()
-
 
 @login_manager.unauthorized_handler
 def unauthorized():

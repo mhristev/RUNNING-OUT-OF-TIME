@@ -11,11 +11,31 @@ dragula([
 	el.classList.add('is-moving');
 	
 })
+
+.on('drop', function (el) {
+	var p = $(el).parents('ul').first().attr('id');
+
+	if (p == 2 || p == 3) {
+		if ($(el).find('input').val() == "") {
+			alert("Моля запишете име на дейноста!");
+			dragula.cancel();
+		}
+	}
+
+	window.setTimeout(function() {
+		el.classList.add('is-moved');
+		window.setTimeout(function() {
+			el.classList.remove('is-moved');
+		}, 600);
+	}, 100);
+})
+
 .on('dragend', function(el) {
 
     var p = $(el).parents('ul').first().attr('id');
 
 	if (p == 2 || p == 3) {
+		//window.document.write($(el).find('input').val());
 		$(el).find('input').prop('disabled', true);
 	} else {
 		$(el).find('input').prop('disabled', false);
@@ -53,7 +73,6 @@ dragula([
         $.post("/movedtemptask3", {javascript_data: k, personName: person_name});
 
     } else if(p == 2 && normalTask == 0){
-
         $.post("/movedtemptask2", {javascript_data: k, personName: person_name});
 
     } else if(p == 1 && normalTask == 0){

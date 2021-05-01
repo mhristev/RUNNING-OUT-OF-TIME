@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from dateutil.relativedelta import relativedelta
 
-from models import User, Task, db, DoneTask, app, TemporaryTask, MissedTask
+from models import MailDate, User, Task, db, DoneTask, app, TemporaryTask, MissedTask, MailDate
 
 from flask_mail import Mail, Message
 
@@ -18,46 +18,101 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
-today = None
+
+
+def send_mail_monthly():
+
+    if not MailDate.query.filter_by(id=1).first():
+        noww = datetime.today()
+        d = None
+        if noww.day != 1:
+            if noww.month == 12:
+                noww.month = 0;
+                noww.year += 1;
+            d = datetime(noww.year, (noww.month+1), 1)
+        else:
+            if noww.month == 12:
+                noww.month = 0;
+                noww.year += 1;
+            d = datetime(noww.year, (noww.month+1), 1) 
+
+        mailing = MailDate(d.replace(microsecond=0, hour=0, second=0, minute=0))
+        db.session.add(mailing)
+        db.session.commit()
+
+        
+    mail_get = MailDate.query.filter_by(id=1).first()
+
+    print(mail.next_date)
+    if mail_get.next_date == datetime.now().replace(microsecond=0, hour=0, second=0, minute=0):
+        mail_get.next_date +=  relativedelta(months=1)
+        db.session.commit()
+        msg = Message('Ненаправени дейности', sender="ruski11v@gmail.com", recipients=['mhristev03@gmail.com'])
+        msg_body = ''
+        print("in sending")
+        a_month = relativedelta(months=1)
+
+        missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= (datetime.today() - a_month))
+        for task in missed_tasks:
+            msg_body += 'Име: ' + task.task_name + "; Ден: " + str((task.missed_date).date()) + '\n'
+
+        msg.body = msg_body
+        mail.send(msg)
+
+
+
+def update_db():
+
+    if not User.query.filter_by(id=1).first():
+        main_admin = User('admin')
+        db.session.add(main_admin)
+        db.session.commit()
+
+
+    nowbro = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
+    tasks_up = Task.query.filter(Task.next_alert < nowbro)
+    temp_tasks = TemporaryTask.query.all()
+    for tasko in temp_tasks:
+        if tasko.column_id == 3:
+            done_tasko = DoneTask(tasko.person_name, tasko.name, tasko.date)
+            db.session.add(done_tasko)
+        elif tasko.column_id == 2 or tasko.column_id == 1:
+            missed_tasko = MissedTask(tasko.name, tasko.date)
+            db.session.add(missed_tasko)
+        
+        db.session.commit()
+
+    for task in tasks_up:
+        if task.column_id == 3:
+            done_task = DoneTask(task.person_name, task.name, task.next_alert)
+            #print("Taskdone")
+            db.session.add(done_task)
+        elif task.column_id == 2 or task.column_id == 1:
+            missed_task = MissedTask(task.name, task.next_alert)
+            #print("tasknotdone")
+            db.session.add(missed_task)
+
+        db.session.commit()
+
+    for task in tasks_up:
+        while task.next_alert < datetime.now().replace(microsecond=0, hour=0, second=0, minute=0):
+            task.next_alert += timedelta(days=task.period);
+        
+        task.column_id = 1;
+        task.person_name = None;
+        db.session.commit()
+
+
+
+
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
     # msg = Message('Hello', sender="ruski11v@gmail.com", recipients=['mhristev03@gmail.com'])
     # msg.body = 'Testing email sending'
     # mail.send(msg)
-
-    nowbro = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
-    b = timedelta(days=1)
-    yesterday = nowbro - b 
-    tasks_up = Task.query.filter_by(next_alert=yesterday)
-
-    first = True
-    for task in tasks_up:
-        if task.column_id == 3:
-            done_task = DoneTask(task.person_name, task.name)
-            db.session.add(done_task)
-        elif task.column_id == 2 or task.column_id == 1:
-            missed_task = MissedTask(task.name)
-            db.session.add(missed_task)
-
-        db.session.commit()
-
-    global today
-    if today != datetime.now().replace(microsecond=0, hour=0, second=0, minute=0) and datetime.today().day == 1:
-        today = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
-        msg = Message('Ненаправени дейности', sender="ruski11v@gmail.com", recipients=['mhristev03@gmail.com'])
-        msg_body = ''
-
-        missed_tasks = MissedTask.query.all()
-        for task in missed_tasks:
-            msg_body += 'Име: ' + task.name + "; Ден: " + task.missed_date + '\n'
-
-        msg.body = msg_body
-        mail.send(msg)
-
-    for task in tasks_up:
-        task.next_alert += timedelta(days=t.period);
-        db.session.commit()
+    update_db()
+    send_mail_monthly()
 
     if request.method == 'POST':
         password = request.form.get('password')
@@ -87,6 +142,9 @@ def home():
 @app.route('/admin')
 @login_required
 def admin():
+    update_db()
+    send_mail_monthly()
+
     today_d = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
 
     tasks_id1 = Task.query.filter_by(next_alert=today_d, column_id=1)
@@ -288,6 +346,7 @@ def task_column2():
 
 @app.route('/movedtask1', methods=['POST'])
 def task_column1():
+    print("go")
     task_id = request.form['javascript_data']
     task = Task.query.filter_by(id=task_id).first()
     task.column_id = 1
@@ -310,6 +369,7 @@ def tasktemp_column3():
 
     task = TemporaryTask.query.filter_by(id=task_id).first()
     task.column_id = 3
+    task.person_name = person_name
     db.session.commit()
 
     if current_user.is_authenticated:
@@ -323,9 +383,10 @@ def tasktemp_column2():
     task_id = request.form['javascript_data']
     person_name = request.form['personName']
     task = TemporaryTask.query.filter_by(id=task_id).first()
+    
     task.column_id = 2
+    
     task.person_name = person_name
-
     db.session.commit()
 
     if current_user.is_authenticated:
@@ -336,6 +397,7 @@ def tasktemp_column2():
 
 @app.route('/movedtemptask1', methods=['POST'])
 def tasktemp_column1():
+    print('dasdas')
     task_id = request.form['javascript_data']
     task = TemporaryTask.query.filter_by(id=task_id).first()
     task.column_id = 1

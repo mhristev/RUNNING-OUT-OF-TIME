@@ -80,12 +80,12 @@
                     <div class="container" style="max-width: 250px;">
                         <div class="form-group m-1">
                             <select class="form-control" name="period_type" id="days_months">
-                            <option>Дена</option>
+                            <option>Дена</option>admin
                             <option>Месеца</option>
                             </select>
                         </div>
                     </div>
-
+                    admin
         </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Затваряне</button>
@@ -93,7 +93,7 @@
                 </div>
             </form>
         </div>
-
+        admin
 
     </div>
     </div>
@@ -209,7 +209,7 @@
                                             <tr style="color: white">
                                                 <td scope="row">{{task.name}}</td>
                                                 <td>{{task.description}}</td>
-                                                <td>{{task.next_alert}}</td>
+                                                <td>{{task.next_alert.date()}}</td>
                                                 <td>{{task.shift}}</td>
                                                 <td>
                                                     <ul class="list m-1" style="display: inline-block; padding: 5px;">
