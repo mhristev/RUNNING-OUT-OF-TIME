@@ -1,0 +1,71 @@
+<table class="wp-table">
+    <tr>
+      <th>Дейност: </th>
+      <th>Направена от: </th>
+      <th>Дата: </th>
+    </tr>
+    {% if tasks != None %}
+    {% for task in tasks %}
+        <tr style="border-style: solid;
+        border-color: green;">
+        <td>{{task.task_name}}</td>
+        <td>{{task.person_name}}</td>
+        <td>{{task.done_date.date().strftime("%d/%m/%Y")}}</td>
+        </tr>
+    {% endfor %}
+    {% endif %}
+
+    {% if missed_tasks != None %}
+    {% for task in missed_tasks %}
+    <tr style="border-style: solid;
+    border-color:red;">
+      <td>{{task.task_name}}</td>
+      <td> - </td>
+      <td>{{task.missed_date.date().strftime("%d/%m/%Y")}}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+
+   
+  </table>
+  
+  <style>
+      .wp-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.wp-table tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+.wp-table tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.wp-table th:first-child, 
+.wp-table td:first-child {
+    padding-left: 16px;
+}
+
+
+.wp-table td, 
+.wp-table th {
+    padding: 8px 8px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+}
+
+.wp-table th {
+    font-weight: bold;
+}
+ 
+.wp-table {
+    font-size: 13px!important;
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    display: table;
+}
+  </style>

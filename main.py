@@ -12,8 +12,8 @@ from flask_mail import Mail, Message
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'ruski11v@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Ruski5500'
+app.config['MAIL_USERNAME'] = 'root.app2021@gmail.com'
+app.config['MAIL_PASSWORD'] = 'rootadmin'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
@@ -50,9 +50,9 @@ def send_mail_monthly():
     if (mail_get.next_date).month == (datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)).month:
         mail_get.next_date += relativedelta(months=1)
         db.session.commit()
-        msg = Message('Ненаправени дейности', sender="ruski11v@gmail.com", recipients=['mhristev03@gmail.com'])
-        msg_body = ''
-        print("in sending")
+      #  msg = Message('Ненаправени дейности от ', sender="root.app2021@gmail.com", recipients=['mhristev03@gmail.com'])
+       # msg_body = ''
+       # print("in sending")
         a_month = relativedelta(months=1)
         # a_day = relativedelta(days=(datetime.today()).day - ((datetime.today()).day + 1))
         
@@ -62,10 +62,12 @@ def send_mail_monthly():
         
 
         missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= start_month)
-        for task in missed_tasks:
-            msg_body += 'Име: ' + task.task_name + "; Ден: " + str((task.missed_date).date()) + '\n'
+        
+        #for task in missed_tasks:
+           # msg_body += 'Име: ' + task.task_name + "; Ден: " + str((task.missed_date).date()) + '\n'
 
-        msg.body = msg_body
+        msg = Message('Ненаправени дейности от ' + str(start_month.date().strftime("%d/%m/%Y")) + ' до ' + str(date.today().strftime("%d/%m/%Y")), sender="root.app2021@gmail.com", recipients=['mhristev03@gmail.com'])
+        msg.html = render_template('email.html', tasks=None, missed_tasks=missed_tasks)
         mail.send(msg)
 
 
@@ -186,18 +188,9 @@ def admin():
 
 
 
-def send_mail(missed_tasks, done_tasks, email, data):
-    print('sending...')
-    msg = Message('Дейности от ' + str(data.date().strftime("%d/%m/%Y")) + ' до ' + str(date.today().strftime("%d/%m/%Y")), sender="ruski11v@gmail.com", recipients=[email])
-    msg_body = 'Ненаправени дейности: \n'
-    for task in missed_tasks:
-        msg_body += 'Име: ' + task.task_name + "; Ден: " + str((task.missed_date).date().strftime("%d/%m/%Y")) + '\n'
-    msg_body += '\n Направени: \n'
-
-    for task in done_tasks:
-        msg_body += 'Име: ' + task.task_name + "; Ден: " + str((task.done_date).date().strftime("%d/%m/%Y")) + '\n'
-    msg.body = msg_body
-    print(msg_body)
+def send_mail_select(missed_tasks, done_tasks, email, data):
+    msg = Message('Дейности от ' + str(data.date().strftime("%d/%m/%Y")) + ' до ' + str(date.today().strftime("%d/%m/%Y")), sender="root.app2021@gmail.com", recipients=[email])
+    msg.html = render_template('email.html', tasks=done_tasks, missed_tasks=missed_tasks)
     mail.send(msg)
 
 
@@ -225,7 +218,7 @@ def select():
                 done_tasks = DoneTask.query.filter(DoneTask.done_date == yesterdayDate)
                 missed_tasks = MissedTask.query.filter(MissedTask.missed_date == yesterdayDate)
               #  print("email = " + email)
-                send_mail(missed_tasks, done_tasks, email, yesterdayDate)
+                send_mail_select(missed_tasks, done_tasks, email, yesterdayDate)
             elif when == 'Тази седмица':
                 now = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
                 monday = now - timedelta(days = now.weekday())
@@ -233,14 +226,14 @@ def select():
                 done_tasks = DoneTask.query.filter(DoneTask.done_date >= monday)
                 missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= monday)
               #  print("email = " + email)
-                send_mail(missed_tasks, done_tasks, email, monday)
+                send_mail_select(missed_tasks, done_tasks, email, monday)
             elif when == 'Този месец':
                 #print('helo')
                 month = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0, day=1)
                 print(month)
                 done_tasks = DoneTask.query.filter(DoneTask.done_date >= month)
                 missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= month)
-                send_mail(missed_tasks, done_tasks, email, month)
+                send_mail_select(missed_tasks, done_tasks, email, month)
        # print("print here = " + printHere)
         if printHere != None:
             if when == 'Вчера':
