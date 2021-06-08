@@ -208,7 +208,7 @@
                                             <tr style="color: white">
                                                 <td scope="row">{{task.name}}</td>
                                                 <td>{{task.description}}</td>
-                                                <td>{{task.next_alert.date()}}</td>
+                                                <td>{{task.next_alert.date().strftime("%d/%m/%Y")}}</td>
                                                 <td>{{task.shift}}</td>
                                                 <td>
                                                     <ul class="list m-1" style="display: inline-block; padding: 5px;">

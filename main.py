@@ -183,10 +183,93 @@ def admin():
                            temp_tasks1=temp_tasks_id1, temp_tasks2=temp_tasks_id2, temp_tasks3=temp_tasks_id3)
 
 
+
+
+
+def send_mail(missed_tasks, done_tasks, email, data):
+    print('sending...')
+    msg = Message('Дейности от ' + str(data.date().strftime("%d/%m/%Y")) + ' до ' + str(date.today().strftime("%d/%m/%Y")), sender="ruski11v@gmail.com", recipients=[email])
+    msg_body = 'Ненаправени дейности: \n'
+    for task in missed_tasks:
+        msg_body += 'Име: ' + task.task_name + "; Ден: " + str((task.missed_date).date().strftime("%d/%m/%Y")) + '\n'
+    msg_body += '\n Направени: \n'
+
+    for task in done_tasks:
+        msg_body += 'Име: ' + task.task_name + "; Ден: " + str((task.done_date).date().strftime("%d/%m/%Y")) + '\n'
+    msg.body = msg_body
+    print(msg_body)
+    mail.send(msg)
+
+
+
+
+
 @app.route('/select', methods=['POST', 'GET'])
 @login_required
 def select():
-    return render_template("select.html")
+    if request.method == 'POST':
+        missed_tasks = None
+        done_tasks = None
+        when = request.form.get('when')
+        print("when = " + when)
+        printHere = request.form.get('printHere') # ako ne e cuknato vrushta None else vrushta ''
+       # print("print here " + printHere)
+        emailSendCheck = request.form.get('emailSend')
+        #print("sending to mail = " + emailSendCheck)
+
+        if emailSendCheck:
+            email = request.form.get('emailAdress')
+            if when == 'Вчера':
+                yesterdayDate = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0) - timedelta(days=1)
+                print(yesterdayDate)
+                done_tasks = DoneTask.query.filter(DoneTask.done_date == yesterdayDate)
+                missed_tasks = MissedTask.query.filter(MissedTask.missed_date == yesterdayDate)
+              #  print("email = " + email)
+                send_mail(missed_tasks, done_tasks, email, yesterdayDate)
+            elif when == 'Тази седмица':
+                now = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
+                monday = now - timedelta(days = now.weekday())
+                print(monday)
+                done_tasks = DoneTask.query.filter(DoneTask.done_date >= monday)
+                missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= monday)
+              #  print("email = " + email)
+                send_mail(missed_tasks, done_tasks, email, monday)
+            elif when == 'Този месец':
+                #print('helo')
+                month = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0, day=1)
+                print(month)
+                done_tasks = DoneTask.query.filter(DoneTask.done_date >= month)
+                missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= month)
+                send_mail(missed_tasks, done_tasks, email, month)
+       # print("print here = " + printHere)
+        if printHere != None:
+            if when == 'Вчера':
+                yesterdayDate = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0) - timedelta(days=1)
+                print(yesterdayDate)
+                done_tasks = DoneTask.query.filter(DoneTask.done_date == yesterdayDate)
+                missed_tasks = MissedTask.query.filter(MissedTask.missed_date == yesterdayDate)
+              #  print("email = " + email)
+                return render_template("select.html", tasks=done_tasks, missed_tasks=missed_tasks)
+            elif when == 'Тази седмица':
+                now = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0)
+                monday = now - timedelta(days = now.weekday())
+                print(monday)
+                done_tasks = DoneTask.query.filter(DoneTask.done_date >= monday)
+                missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= monday)
+              #  print("email = " + email)
+                return render_template("select.html", tasks=done_tasks, missed_tasks=missed_tasks)
+            elif when == 'Този месец':
+                #print('helo')
+                month = datetime.now().replace(microsecond=0, hour=0, second=0, minute=0, day=1)
+                print(month)
+                done_tasks = DoneTask.query.filter(DoneTask.done_date >= month)
+                missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= month)
+                return render_template("select.html", tasks=done_tasks, missed_tasks=missed_tasks)
+            #filter here
+            print("print here...")
+            return render_template('select.html')
+        
+    return render_template("select.html", tasks=None, missed_tasks=None)
 
 
 @app.route('/manage', methods=['POST', 'GET'])
@@ -272,11 +355,11 @@ def edit(my_task_id):
                 next_alert = start_date + relativedelta(months=+period)
                 period = next_alert - start_date
                 period = period.days
-                print(period)
-                print(next_alert)
+               # print(period)
+               # print(next_alert)
         else:
             next_alert = start_date + timedelta(days=period)
-            print(next_alert)
+           # print(next_alert)
 
 
         task.period = period

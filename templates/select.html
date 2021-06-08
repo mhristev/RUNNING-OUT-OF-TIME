@@ -5,10 +5,10 @@
 
 {% block board %}
 <div class="border border-danger p-4" style="margin:auto; width: 40%;">
-    <form style="text-align: center;" >
-        <div class="form-group w-50" style="margin:auto;">
+  <form name="form_select" style="text-align: center;" method="POST" onsubmit="return generate_select('exampleFormControlSelect')">
+    <div class="form-group w-50" style="margin:auto;" >
             <label for="exampleFormControlSelect1">Направени дейности: </label>
-            <select class="form-control" id="exampleFormControlSelect1">
+            <select class="form-control" name="when" id="exampleFormControlSelect1">
               <option></option>
               <option> Вчера </option>
               <option> Тази седмица </option>
@@ -16,28 +16,98 @@
             </select>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" >
+            <input class="form-check-input" type="checkbox" value="" name="printHere" id="defaultCheck1" >
             <label class="form-check-label" for="defaultCheck1"> Покажи тук </label>
           </div>
           <form method="post">
               <div>
             <div class="form-check w-25" style="margin:auto;">
-                <input class="form-check-input" type="checkbox" value="1" id="defaultCheck2" onclick="email(this)">
+                <input class="form-check-input" type="checkbox" name="emailSend" value="1" id="defaultCheck2" onclick="email(this)">
                 <label class="form-check-label" for="defaultCheck2"> Изпрати на email </label>
-                <select class="form-control" id="email_input" disabled>
+                <select class="form-control" name="emailAdress" id="exampleFormControlSelect2" disabled>
                     <option></option>
-                    <option>Email@email.com</option>
+                    <option>mhristev03@gmail.com</option>
                     <option>email2@email.com</option>
                 </select>
-            </div>
+    </div>
+          </form  >
+            <button class="btn btn-primary" style="margin-top: 30px;" > Генериране </button>
           </form>
-        <button type="submit" class="btn btn-primary" style="margin-top: 30px;" > Генериране </button>
-    </form>
+  </div>
+  
 </div>
+<section class="pb-5 header text-center" >
+  <div class="container py-5 text-white" >
+      <div class="row" >
+          <div class="col-lg-13 mx-auto" >
+              <div class="card border-0 shadow" style="background-color:  rgba(0, 0, 0, 0.2);">
+                {% if tasks != None and missed_tasks != None %}
+                  <div class="card-body p-6">
+                      <!-- Responsive table -->
+                      <div class="table-responsive">
+                          <table class="table m-0">
+                            {% if tasks != None %}
+                              {% for task in tasks %}
+                                <thead>
+                                    <tr  style="color:white">
+                                        <th style="border-style: solid;
+                                        border-color: green;" scope="col">Дейност: </th>
+                                        <th scope="col">Направена от: </th>
+                                        <th scope="col">Дата: </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    
+                                      <tr style="color: white">
+                                        <td scope="row">{{task.task_name}}</td>
+                                        <td>{{task.person_name}}</td>
+                                        <td>{{task.done_date.date().strftime("%d/%m/%Y")}}</td>
+                              
+                                    </tr>
+                                
+                                </tbody>
+                              {% endfor %}
+                            {% endif %}
+
+                            {% if missed_tasks != None %}
+                              {% for task in missed_tasks %}                              
+                                    <thead>
+                                      <tr  style="color:white; ">
+                                          <th style="border-style: solid;
+                                          border-color: coral;" scope="col">Дейност: </th>
+                                          <th scope="col">Пропусната на дата: </th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      
+                                        <tr style="color: white">
+                                          <td scope="row">{{task.task_name}}</td>
+                                          <td>{{task.missed_date.date().strftime("%d/%m/%Y")}}</td>                              
+                                      </tr>
+                                  
+                                  </tbody>
+
+                              {% endfor %}
+                            {% endif %}
+                          </table>
+                      </div>
+                  </div>
+                {% endif %}
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
 
 <script>
     
 </script>
+
+
 {% endblock %}
+
+
 
 

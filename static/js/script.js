@@ -107,9 +107,9 @@ $( "div input " ).click(function() {
 // SELECT MAIL
 function email(termsCheckBox){
 	if(termsCheckBox.checked){
-		document.getElementById("email_input").disabled = false;
+		document.getElementById("exampleFormControlSelect2").disabled = false;
 	} else{           
-		document.getElementById("email_input").disabled = true;    
+		document.getElementById("exampleFormControlSelect2").disabled = true;    
 	}
 }
 
@@ -176,6 +176,38 @@ function checking_fields(formata) {
 	}
 
 
+}
+
+
+function generate_select(name) {
+	//console.log("hi");
+	//window.document.write("da");
+
+	whenID = name + "1";
+	emailID = name + "2";
+	
+	//var check_when = document.getElementById(whenID);
+	//var check_email = document.getElementById(emailID);
+	var check_when = document.forms["form_select"][whenID].value;
+	//window.document.write("check_when = " + check_when);
+	var check_email = document.forms["form_select"][emailID].value;
+	//window.document.write(check_when);
+	console.log(check_when);
+	console.log(check_email);
+
+	
+
+	if (check_when == null || check_when == "") {
+		alert("Моля изберете време!");
+		return false;
+	}
+
+	if (!document.getElementById("exampleFormControlSelect2").disabled) {
+		if (check_email == null || check_email == "") {
+			alert("Моля изберете имейл!");
+			return false;
+		}
+	}
 }
 
 function megaqko(da) {
