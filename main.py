@@ -55,7 +55,13 @@ def send_mail_monthly():
         print("in sending")
         a_month = relativedelta(months=1)
         # a_day = relativedelta(days=(datetime.today()).day - ((datetime.today()).day + 1))
-        missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= (datetime.today() - a_month))
+        
+
+        gg = datetime.today() - a_month;
+        start_month = datetime(gg.year, gg.month, 1)
+        
+
+        missed_tasks = MissedTask.query.filter(MissedTask.missed_date >= start_month)
         for task in missed_tasks:
             msg_body += 'Име: ' + task.task_name + "; Ден: " + str((task.missed_date).date()) + '\n'
 
