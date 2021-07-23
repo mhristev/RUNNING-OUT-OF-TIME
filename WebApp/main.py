@@ -7,7 +7,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from dateutil.relativedelta import relativedelta
 
 from models import MailDate, User, Task, db, DoneTask, app, TemporaryTask, MissedTask, MailDate
-
+from backup import backupDB
 from flask_mail import Mail, Message
 
 app.config['MAIL_SERVER'] = 'smtp.abv.bg'
@@ -98,6 +98,8 @@ def send_mail_monthly():
 
         mail_get.next_date = datetime((datetime.today().year), datetime.today().month + 1, 1)
         db.session.commit()
+
+    backupDB()
 
 
 def update_db():
